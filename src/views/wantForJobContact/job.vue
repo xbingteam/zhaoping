@@ -3,7 +3,7 @@
  * 求职列表页面
  * @Date: 2019-12-23 17:11:53 
  * @Last Modified by: weiyc
- * @Last Modified time: 2019-12-28 20:27:44
+ * @Last Modified time: 2019-12-28 20:39:27
  */
 <template>
 <div class="qiuzhi">
@@ -97,6 +97,7 @@
 <script>
 import { findAllJobhunter } from "@/api/jobhunter.js";
 import { findAllEmploymentJobhunter,findAllWithJobhAndEmpl } from '@/api/employmentJobhunter.js';
+import config from '@/utils/config.js';
 
 export default {
   data() {
@@ -125,7 +126,7 @@ export default {
   computed: {
     jobList() {
       let temp = [...this.emplData];
-      let pageSize = 10;
+      let pageSize = config.pageSize;
       let page = this.currentPage;
       return temp.slice((page - 1) * pageSize, page * pageSize);
     },

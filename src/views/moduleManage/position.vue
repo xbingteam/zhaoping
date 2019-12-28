@@ -2,8 +2,8 @@
  * @Author: liuyr 
  * 职位管理页面
  * @Date: 2019-12-23 17:11:53 
- * @Last Modified by: rafe
- * @Last Modified time: 2019-12-28 19:43:39
+ * @Last Modified by: weiyc
+ * @Last Modified time: 2019-12-28 20:35:44
  */
 <template>
   <div id="modulePosition">
@@ -62,9 +62,9 @@
 
 
 <script>
-import { findAllJobs ,saveOrUpdateJobs,deleteJobsById} from "@/api/Job.js";
-import { findAllJobTypes , findJobTypeById,saveOrUpdateJobType} from "@/api/jobtype.js";
-import config from '@/utils/config.js'
+// import { findAllJobs ,saveOrUpdateJobs,deleteJobsById} from "@/api/Job.js";
+// import { findAllJobTypes , findJobTypeById,saveOrUpdateJobType} from "@/api/jobtype.js";
+// import config from '@/utils/config.js'
 export default {
   data() {
     return {
