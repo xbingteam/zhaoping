@@ -8,7 +8,10 @@
 <template>
   <div id="limitManage">
     <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="权限列表" name="limit"></el-tab-pane>
+      <el-tab-pane label="权限列表" name="limit">
+        <span slot="label" style="padding: 0 40px;font-size: 1.2em;">权限列表</span>
+
+      </el-tab-pane>
     </el-tabs>
     <!-- 选项卡体部 -->
     <div class="tbl-content">
@@ -35,4 +38,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+     /deep/ .el-tabs__item {
+    height: 45px;
+    line-height: 45px;
+}
 </style>
