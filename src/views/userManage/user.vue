@@ -2,7 +2,7 @@
  * @Author: Lisa 
  * @Date: 2019-12-28 09:08:51 
  * @Last Modified by: Lisa
- * @Last Modified time: 2019-12-28 17:20:50
+ * @Last Modified time: 2019-12-28 18:35:17
  */
 <template>
   <div id="userList">
@@ -10,14 +10,14 @@
       <div class="row">
       <!-- 1.添加用户按钮 -->
       <div class="addbtnDiv">
-          <el-button @click="toAdd" type="primary" icon="el-icon-edit" size="mini">添加用户</el-button>
+          <el-button @click="toAdd" type="primary" icon="el-icon-edit">添加用户</el-button>
       </div>
       <!-- 按条件查找选择框 -->
       <div class="searchDiv">
-         <el-select size="mini" @change="educationChange"  v-model="education" clearable placeholder="学历" >
+         <el-select @change="educationChange"  v-model="education" clearable placeholder="学历" >
             <el-option v-for="item in educationData" :key="item"  :label="item" :value="item"></el-option>
          </el-select>
-         <el-select size="mini" @change="genderChange" v-model="gender" clearable placeholder="性别" >
+         <el-select @change="genderChange" v-model="gender" clearable placeholder="性别" >
             <el-option v-for="item in genderData" :key="item" :label="item" :value="item"> </el-option>
          </el-select>
       </div>
