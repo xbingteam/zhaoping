@@ -3,16 +3,16 @@
  * 客服列表页面
  * @Date: 2019-12-23 17:11:53 
  * @Last Modified by: chengyf
- * @Last Modified time: 2019-12-28 16:19:00
+ * @Last Modified time: 2019-12-28 18:50:03
  */
  <template>
   <div id="CustomerServiceList">
     <div class="main">
     <div class="searchDiv">
-      <el-select @change="statusChange" size="mini" v-model="status" clearable placeholder="状态">
+      <el-select @change="statusChange" v-model="status" clearable placeholder="状态">
         <el-option v-for="item in statusData" :key="item" :label="item" :value="item"></el-option>
       </el-select>
-      <el-select @change="genderChange" size="mini" v-model="gender" clearable placeholder="性别">
+      <el-select @change="genderChange" v-model="gender" clearable placeholder="性别">
         <el-option v-for="item in genderData" :key="item" :label="item" :value="item"></el-option>
       </el-select>
      
@@ -35,8 +35,8 @@
 </el-dialog>
  <div class="addWaiterDiv" >
 <template>
-      <el-button @click="addWaiter" type="danger" size="mini" icon="el-icon-circle-plus-outline">添加客服</el-button>
-      <el-button  @click="putinWaiter" type="primary" size="mini" icon="el-icon-upload">导入客服</el-button>
+      <el-button @click="addWaiter" type="danger" icon="el-icon-circle-plus-outline">添加客服</el-button>
+      <el-button  @click="putinWaiter" type="primary" icon="el-icon-upload">导入客服</el-button>
 </template>
 <el-dialog title="添加客服信息" :visible.sync="addWai">
   <el-form :model="addform" :rules="rules" ref="ruleForm"
