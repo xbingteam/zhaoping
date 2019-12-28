@@ -3,28 +3,28 @@
  * 福利管理页面
  * @Date: 2019-12-23 17:11:53 
  * @Last Modified by: rafe
- * @Last Modified time: 2019-12-27 23:27:12
+ * @Last Modified time: 2019-12-28 20:04:45
  */
 <template>
   <div id="moduleBoon">
     <!-- :data="welfareDate.slice((currentPage-1)*pageSize,currentPage* pageSize)" -->
-    <div>
-        <el-select @change="welfareChange" size="mini" v-model="welfare" clearable placeholder="全部">
+    <div style="margin-top:1em">
+        <el-select @change="welfareChange"  v-model="welfare" clearable placeholder="全部">
         <el-option v-for="item in nameDate" :key="item" :label="item" :value="item"></el-option>
       </el-select>
       </div>
 
       <div class="tableDiv">
       <el-table style="margin-top :15px"
-        :header-cell-style="{background:'teal',color:'#fff'}"
+        :header-cell-style="{background:'teal',color:'#fff',height:'50px'}" 
         ref="multipleTablewelfareDate"
         :data="welfareList"
         tooltip-effect="dark"
         @selection-change="selectionChange"
       >
       <!-- //teal -->
-        <el-table-column   align="center" type="selection" width="5"></el-table-column>
-        <el-table-column  align="center" prop="name" label="福利名称"></el-table-column>
+        <el-table-column   align="center" type="selection" width="50"></el-table-column>
+        <el-table-column  align="center" prop="name" width="150" label="福利名称"></el-table-column>
         <el-table-column align="center" prop="status" label="状态">
           <template slot-scope="scope">
               <span
@@ -214,7 +214,10 @@ export default {
   mounted() {}
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
+  .cell{
+    height: 50px;
+  }
   #footDe{
     margin-top :15px
   }

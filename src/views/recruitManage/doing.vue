@@ -1,16 +1,26 @@
 <template>
   <div class="recruiting">
+    <div class="main">
+    <!-- {{EmploymentTypeData}} -->
     <div class="searchDiv">
+      <el-row>
+          <div style="float:left;">
      <el-dropdown>
-       <el-select @change="EmploymentChange(Employment)" size="mini" v-model="Employment" clearable placeholder="职位类型">
+       <el-select @change="EmploymentChange(Employment)"  v-model="Employment" clearable placeholder="职位类型">
           <el-option
           v-for="item in EmploymentDataList"
           :key="item"
           :label="item"
           :value="item">
           </el-option>
-      </el-select>
+       </el-select>
     </el-dropdown>
+        </div>
+        <div style="float:right;">
+        <el-button type="primary" plain>发布职位</el-button>
+        <el-button type="success" plain>导入职位</el-button>
+        </div>
+      </el-row>
     </div>
     <!-- 表格 -->
     <div class="tableDiv">
@@ -22,19 +32,120 @@
         :header-cell-style="headClass"
       >
       <el-table-column align="center" type="selection" width="55"></el-table-column>
-      <el-table-column prop="title" label="招聘标题"></el-table-column>
-      <el-table-column prop="contactName" label="发布人"></el-table-column>
-      <el-table-column prop="contactPhone" label="联系方式"></el-table-column>
-      <el-table-column prop="job" label="职位"></el-table-column>
-      <el-table-column prop="publishTime" label="发布时间"></el-table-column>
+      <el-table-column  align="center"  prop="title" label="招聘标题"></el-table-column>
+      <el-table-column align="center"  prop="contactName" label="发布人"></el-table-column>
+      <el-table-column align="center"  prop="contactPhone" label="联系方式"></el-table-column>
+      <el-table-column  align="center" prop="job" label="职位"></el-table-column>
+      <el-table-column align="center"  prop="publishTime" label="发布时间">
+        <span slot-scope="scope">{{scope.row.publishTime}}</span>
+      </el-table-column>
       <el-table-column align="center" label="详情">
           <template slot-scope="scope">
             <el-button @click="toSee(scope.row)" type="text" size="small">查看</el-button>
+            <el-dialog :title="scope.row.title" :visible.sync="scope.row.show_description">
+              <div class="seeDiv">
+                <span>行业类型：</span>
+                {{company.industry}}
+              </div>
+              <div class="seeDiv">
+                <span>成立时间：</span>
+                {{company.establishedTime}}
+              </div>
+              <div class="seeDiv">
+                <span>注册资本：</span>
+                {{company.registeredCapital}}
+              </div>
+              <div class="seeDiv">
+                <span>公司规模：</span>
+                {{company.scale}}
+              </div>
+              <div class="descDiv">&nbsp;&nbsp;&nbsp;&nbsp;{{company.description}}</div>
+              <div class="imgDiv">
+                <a :href="currentBus.businessLicense" target="_blank">
+                  <img src="../../assets/营业执照.jpg" alt width="200" height="150" />
+                </a>
+              </div>
+            </el-dialog> 
           </template>
       </el-table-column>
-      <el-table-column  label="操作" width="100%">
+      <el-table-column  label="操作">
         <template slot-scope="scope">
-          <el-button @click="toEdit(scope.row.id)" type="text" size="mini">修改</el-button>
+          <el-button @click="toEdit(scope.row)" type="text" size="mini">修改</el-button>
+          <!-- 修改展示页面 -->
+          <el-dialog title="修改招聘信息" :visible.sync="scope.row.show_update" width="50%">
+            <el-form :model="currentBus">
+              <el-row>
+                <el-col :span="12"><div class="grid-content bg-purple">
+                  <el-form-item label="兼职名称" :label-width="formLabelWidth">
+                    <el-input v-model="scope.row.title" ></el-input>
+                  </el-form-item></div></el-col>
+              </el-row>
+              <el-row :gutter="20" >
+                <el-col :span="12"><div class="grid-content bg-purple-light"><el-form-item label="选择工种" :label-width="formLabelWidth">
+              <el-row >
+              <el-select @change="dialogProChange" v-model="scope.row.job" placeholder="请选择活动区域">
+                  <el-option label="区域一" v-for="item in EmploymentDataList" :value="item" :key="item":label="item"></el-option>
+                 
+              </el-select>
+                  </el-row>
+            </el-form-item></div></el-col>
+                    <el-col :span="12">
+                      <el-form-item prop="industry" label="招聘人数" :label-width="formLabelWidth" >
+                        <el-input v-model="scope.row.num" placeholder="请输入你要招聘的人数"></el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+    
+              <el-row>
+                <el-col :span="12"><div class="grid-content bg-purple"><el-form-item label="福利" :label-width="formLabelWidth">
+                <el-input v-model="scope.row.welfare" placeholder="修改福利水平"></el-input>
+              </el-form-item></div></el-col>
+                <el-col :span="12"><div class="grid-content bg-purple"><el-form-item label="薪资水平" :label-width="formLabelWidth">
+                <el-input v-model="scope.row.salary" placeholder="请输入薪资"></el-input>
+              </el-form-item></div></el-col>
+              </el-row>
+    
+              <el-row>
+                <el-col :span="24">
+                  <div class="grid-content bg-purple">
+                    <el-form-item label="职位标签" :label-width="formLabelWidth">
+                      <el-input v-model="company.industry" >
+                      </el-input>
+                    </el-form-item>
+                  </div>
+                </el-col>
+              </el-row>
+    
+              <el-row>
+                <el-col :span="12">
+                  <div class="grid-content bg-purple">
+                    <el-form-item label="联系方式" :label-width="formLabelWidth">
+                        <el-input v-model="scope.row.contactPhone" >
+                        </el-input>
+                    </el-form-item>
+                  </div>
+                </el-col>
+                <el-col :span="12"><div class="grid-content bg-purple">
+                  <el-form-item label="工作时间" :label-width="formLabelWidth">
+                    <el-input v-model="scope.row.workingHours">
+    
+                    </el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+              </el-row>
+          <el-row>
+            <el-col :span="24">
+                      <el-form-item prop="location" label="职位描述" :label-width="formLabelWidth">
+                        <el-input type="textarea" :rows="4" v-model="scope.row.description"></el-input>
+                      </el-form-item>
+                    </el-col>
+          </el-row>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button type="primary" plain @click="postForm(scope.row)">确定</el-button>
+            </div>
+          </el-dialog>
           <el-button @click="toDelete(scope.row.id)" type="text" size="mini">删除</el-button>
         </template>
       </el-table-column>
@@ -57,115 +168,20 @@
         </div>
     </div> 
     <!-- 发布职位 -->
-    <div style="position:absolute; right:20px; top:43px;">
+    <!-- <div style="position:absolute; right:10%; top:6%;">
       <el-row>
         <el-button type="primary" plain>发布职位</el-button>
         <el-button type="success" plain>导入职位</el-button>
       </el-row>
-    </div>
+    </div> -->
     <!-- 详情 -->
     
 
     <!-- 模态框 -->
-    <el-dialog :title="currentBus.name" :visible.sync="seeVisible">
-      <div class="seeDiv">
-        <span>行业类型：</span>
-        {{currentBus.industry}}
-      </div>
-      <div class="seeDiv">
-        <span>成立时间：</span>
-        {{currentBus.establishedTime}}
-      </div>
-      <div class="seeDiv">
-        <span>注册资本：</span>
-        {{currentBus.registeredCapital}}
-      </div>
-      <div class="seeDiv">
-        <span>公司规模：</span>
-        {{currentBus.scale}}
-      </div>
-      <div class="descDiv">&nbsp;&nbsp;&nbsp;&nbsp;{{currentBus.description}}</div>
-      <div class="imgDiv">
-        <a :href="currentBus.businessLicense" target="_blank">
-          <img :src="currentBus.businessLicense" alt width="200" height="150" />
-        </a>
-      </div>
-    </el-dialog> 
-                <!-- 修改模态框 -->
-          <el-dialog title="修改招聘信息" :visible.sync="editVisible" width="50%">
-              <el-form :model="currentBus">
-                <el-row>
-                  <el-col :span="12"><div class="grid-content bg-purple">
-                    <el-form-item label="兼职名称" :label-width="formLabelWidth">
-                      <el-input v-model="currentBus.name" ></el-input>
-                    </el-form-item></div></el-col>
-                </el-row>
-                <el-row :gutter="20" >
-                  <el-col :span="12"><div class="grid-content bg-purple-light"><el-form-item label="选择工种" :label-width="formLabelWidth">
-                <el-row >
-                <el-select @change="dialogProChange" v-model="currentBus.Employment" placeholder="请选择活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-                    </el-row>
-              </el-form-item></div></el-col>
-                      <el-col :span="12">
-                        <el-form-item prop="industry" label="招聘人数" :label-width="formLabelWidth" >
-                          <el-input v-model="currentBus.industry" placeholder="请输入你要招聘的人数"></el-input>
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
 
-                <el-row>
-                  <el-col :span="12"><div class="grid-content bg-purple"><el-form-item label="招聘公司" :label-width="formLabelWidth">
-                  <el-input v-model="currentBus.name" placeholder="修改招聘公司"></el-input>
-                </el-form-item></div></el-col>
-                  <el-col :span="12"><div class="grid-content bg-purple"><el-form-item label="薪资水平" :label-width="formLabelWidth">
-                  <el-input v-model="currentBus.name" placeholder="请输入薪资"></el-input>
-                </el-form-item></div></el-col>
-                </el-row>
+    <!-- 修改模态框 -->
 
-                <el-row>
-                  <el-col :span="24">
-                    <div class="grid-content bg-purple">
-                      <el-form-item label="职位标签" :label-width="formLabelWidth">
-                        <el-input v-model="currentBus.name" >
-                        </el-input>
-                      </el-form-item>
-                    </div>
-                  </el-col>
-                </el-row>
-
-                <el-row>
-                  <el-col :span="12">
-                    <div class="grid-content bg-purple">
-                      <el-form-item label="招聘时长" :label-width="formLabelWidth">
-                          <el-input v-model="currentBus.name" >
-                          </el-input>
-                      </el-form-item>
-                    </div>
-                  </el-col>
-                  <el-col :span="12"><div class="grid-content bg-purple">
-                    <el-form-item label="工作时间" :label-width="formLabelWidth">
-                      <el-input v-model="currentBus.name">
-
-                      </el-input>
-                    </el-form-item>
-                  </div>
-                </el-col>
-                </el-row>
-            <el-row>
-              <el-col :span="24">
-                        <el-form-item prop="location" label="职位描述" :label-width="formLabelWidth">
-                          <el-input type="textarea" :rows="4" v-model="currentBus.location"></el-input>
-                        </el-form-item>
-                      </el-col>
-            </el-row>
-              </el-form>
-              <div slot="footer" class="dialog-footer">
-                <el-button type="primary" plain>确定</el-button>
-              </div>
-</el-dialog>
+    </div>
   </div>
 </template>
 
@@ -174,7 +190,8 @@ import { findAllEmployment } from "@/api/employment_wh.js";
 import config from "@/utils/config.js";
 import { deleteEmploymentById } from "@/api/employment_wh.js";
 import { findEmploymentByTitle } from "@/api/employment_wh.js";
-import { findEmploymentByJob } from "@/api/employment_wh.js";
+import { findEmploymentByJob,saveOrUpdateEmployment } from "@/api/employment_wh.js";
+import { findBusinessById } from "@/api/business.js"
 export default {
   data() {
     return {
@@ -199,14 +216,10 @@ export default {
       EmploymentData: [],
       pageSize:config.pageSize,
       ids:[],
+      company:{}
     };
   },
   computed: {
-    //   toSee(row) {
-    //   this.currentBus = { ...row };
-    //   this.seeVisible = true;
-    // },
-    
     EmploymentList(){
       let temp = [...this.EmploymentData];
       let page = this.currentPage;
@@ -215,14 +228,17 @@ export default {
     },
     EmploymentDataList(){
       let msg =[];
-    this.EmploymentData.forEach(res=>{
-      msg.push(res.job)
-    });
-    msg = [...new Set(msg)]
-    console.log(msg)
+     
+
+        this.EmploymentData.forEach(res=>{
+        msg.push(res.job)
+       
+     });
+     msg = [...new Set(msg)]
     return msg;
-    }
-  },
+    
+  }
+},
   methods: {
     // 表头样式设置
     headClass () {
@@ -310,17 +326,52 @@ export default {
     },
 
     //查看
-    toSee(row){
-     this.currentEnp = {...row};
-     this.seeVisible = ture;
+    async toSee(row){
+       try{
+         this.company ={} 
+         console.log(row)
+        row.show_description =true;
+        console.log(row.businessId)
+        let res  = await findBusinessById({id:row.businessId})
+        this.company = res.data;
+        console.log(this.company)
+
+       }catch(err){
+        console.log(err)
+       }
+
     },
     //编辑
-    toEdit(row){
-      alert('编辑');
+    async toEdit(row){
+      try{
+        this.company ={} 
+        row.show_update =true;
+        console.log(row)
+        let res  = await findBusinessById({id:row.businessId})
+        this.company = res.data;
+        console.log(this.company)
+
+       }catch(err){
+        console.log(err)
+       }
     },
     //页面发生转换
     pageChange(page){
       this.currentPage = page;
+    },
+    // 提交表单进行修改
+    async postForm(row){
+      try{
+        row.show_update=false;
+        let res = await saveOrUpdateEmployment(row);
+        this.findAllEmp();
+        this.$message({
+          message: '修改成功',
+          type: 'success'
+        })
+      }catch(err){
+        console.log(err)
+      }
     },
     //复选框选中切换
     selectionChange(val) {
@@ -333,16 +384,22 @@ export default {
       try {
         let res = await findAllEmployment();
         this.EmploymentData = res.data.reverse();
+        this.EmploymentData.forEach(res=>{
+            let index =res.publishTime.indexOf("T")
+            let index1 =res.publishTime.indexOf(".")
+            let a = res.publishTime.substring(0,index);
+            let b = res.publishTime.substring(index+1,index1);
+            res.publishTime = a+" "+b;
+            this.$set(res,'show_description',false)
+            this.$set(res,'show_update',false)
+        })
+        console.log(this.EmploymentData)
       } catch (error) {
         console.log(error,'====')
         config.errorMsg(this, "查找错误");
       }
     },
-    //编辑
-    toEdit(row){
-      this.currentBus = [...row];
-      this.editVisible = true;
-    },
+    
     // 删除按钮
     toDelete(id) {
       //row代表当前要删除的city对象
@@ -392,6 +449,10 @@ export default {
       color: #777;
     }
   }
+  .main{
+  margin-left: 10%;
+  margin-right: 10%;
+}
   .tableDiv{
   margin-top: 2em;
   width:100%;

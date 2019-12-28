@@ -2,7 +2,7 @@
  * @Author: Lisa 
  * @Date: 2019-12-28 17:35:04 
  * @Last Modified by: Lisa
- * @Last Modified time: 2019-12-28 18:33:55
+ * @Last Modified time: 2019-12-28 20:03:00
  */
 
 <template>
@@ -591,4 +591,5 @@ export default {
 .searchDiv{
   margin-top: 3em;
 }
+
 </style>
