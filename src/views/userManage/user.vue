@@ -2,35 +2,38 @@
  * @Author: Lisa 
  * @Date: 2019-12-28 09:08:51 
  * @Last Modified by: Lisa
- * @Last Modified time: 2019-12-28 14:38:32
+ * @Last Modified time: 2019-12-28 16:13:27
  */
 <template>
   <div id="userList">
-    <!-- 1.添加用户按钮 -->
-    <div class="addbtnDiv">
-        <el-button @click="toAdd" type="primary" icon="el-icon-edit">添加用户</el-button>
-    </div>
-    <!-- 按条件查找选择框 -->
-    <div class="searchDiv">
-       <el-select @change="educationChange"  v-model="education" clearable placeholder="学历" >
-          <el-option v-for="item in educationData" :key="item"  :label="item" :value="item"></el-option>
-       </el-select>
-       <el-select @change="genderChange" v-model="gender" clearable placeholder="性别" >
-          <el-option v-for="item in genderData" :key="item" :label="item" :value="item"> </el-option>
-       </el-select>
+    <div class="main">
+      <div class="row">
+      <!-- 1.添加用户按钮 -->
+      <div class="addbtnDiv">
+          <el-button @click="toAdd" type="primary" icon="el-icon-edit">添加用户</el-button>
+      </div>
+      <!-- 按条件查找选择框 -->
+      <div class="searchDiv">
+         <el-select @change="educationChange"  v-model="education" clearable placeholder="学历" >
+            <el-option v-for="item in educationData" :key="item"  :label="item" :value="item"></el-option>
+         </el-select>
+         <el-select @change="genderChange" v-model="gender" clearable placeholder="性别" >
+            <el-option v-for="item in genderData" :key="item" :label="item" :value="item"> </el-option>
+         </el-select>
+      </div>
     </div>
     <!-- 表格 -->
     <div class="tableDiv">
-        <el-table @selection-change="selectionChange" :data="userList" border :header-cell-style="headClass" >
+        <el-table @selection-change="selectionChange" :data="userList" :header-cell-style="headClass" >
           <el-table-column align="center" type="selection" ></el-table-column>
           <!-- <el-table-column prop="id" label="id" width="180"></el-table-column> -->
-          <el-table-column prop="username" label="用户名" ></el-table-column>
-          <el-table-column prop="realname" label="姓名" ></el-table-column>
-          <el-table-column prop="telephone" label="手机" ></el-table-column>
-          <el-table-column prop="gender" label="性别" ></el-table-column>
-          <el-table-column prop="birth" label="出生年月" ></el-table-column>
-          <el-table-column prop="education" label="最高学历" ></el-table-column>
-          <el-table-column prop="address" label="操作">
+          <el-table-column align="center" prop="username" label="用户名" ></el-table-column>
+          <el-table-column align="center" prop="realname" label="姓名" ></el-table-column>
+          <el-table-column align="center" prop="telephone" label="手机" ></el-table-column>
+          <el-table-column align="center" prop="gender" label="性别" ></el-table-column>
+          <el-table-column align="center" prop="birth" label="出生年月" ></el-table-column>
+          <el-table-column align="center" prop="education" label="最高学历" ></el-table-column>
+          <el-table-column align="center" prop="address" label="操作">
             <template slot-scope="scope">
               <el-button @click="toEdit(scope.row)" type="text" size="small">修改</el-button>
               <el-button @click="toSingleDelete(scope.row.id)" type="text" size="small">删除</el-button>
@@ -150,6 +153,7 @@
     <!-- 分页 -->
     <div class="page">
       <el-pagination background layout="prev, pager, next" :page-size="pageSize" @current-change="currentChange" :current-page.sync="currentPage" :total="userData.length"></el-pagination>
+    </div>
     </div>
   </div>
 </template>
@@ -466,16 +470,26 @@ export default {
   mounted() {}
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
+.main{
+  margin-left: 10%;
+  margin-right: 10%;
+}
+.searchDiv{
+  margin-top: 3em;
+}
+.tableDiv{
+  margin-top: 2em;
+  width:100%;
+  border: 2px solid #008080;
+}
 .addbtnDiv{
   float: right;
 }
-.tableDiv{
-  margin-top: 10px;
-}
 .page{
   margin-top: 20px;
-  text-align: center;
+  float: right;
+  margin-right: 0;
 }
 .deleteDiv{
   margin-top: 20px;
