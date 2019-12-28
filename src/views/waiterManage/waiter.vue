@@ -2,8 +2,8 @@
  * @Author: liuyr 
  * 客服列表页面
  * @Date: 2019-12-23 17:11:53 
- * @Last Modified by: chengyf
- * @Last Modified time: 2019-12-28 18:50:03
+ * @Last Modified by: Lisa
+ * @Last Modified time: 2019-12-28 19:45:59
  */
  <template>
   <div id="CustomerServiceList">
@@ -105,7 +105,7 @@
     <div class="pageDiv">
       <el-pagination
       :page-size="pageSize"
-      current-page.sync = "currentpage"
+      :current-page.sync = "currentPage"
       background
       @current-change= "pageChange"
   layout="prev, pager, next"
@@ -221,7 +221,7 @@ export default {
     },
 
     //关闭模态框
-      beforeClose(){
+    beforeClose(){
       //重置表单验证，关闭模态框
       this.$refs["ruleForm"].resetFields();
       this.addWai = false;
@@ -233,7 +233,7 @@ export default {
       this.addWai = false;
     },
     //保存
-        toSave(formName) {
+    toSave(formName) {
       this.$refs[formName].validate(async valid => {
         if (valid) {
           //保存
@@ -269,6 +269,7 @@ export default {
     toGive(row){
       this.showfp =true;
     },
+    //页数发生改变
     pageChange(page){
       this.currentPage = page;
     },
@@ -282,6 +283,7 @@ export default {
            let res = await findCustomerServiceByEducation(
              {status:val});
              this.CustomerServiceData = res.data;
+             this.currentPage = 1;
          } catch (error) {
            config.errorMsg(this,'通过状态查找商家信息错误');
          }
@@ -290,7 +292,7 @@ export default {
        }
      },
     //性别发生改变
-       async genderChange(val){
+    async genderChange(val){
          this.status = '';
          //val是option的value值
          console.log(val);
@@ -299,6 +301,7 @@ export default {
            let res = await findCustomerServiceByGender(
              {gender:val});
              this.CustomerServiceData = res.data;
+             this.currentPage = 1;
          } catch (error) {
            config.errorMsg(this,'通过性别查找商家信息错误');
          }

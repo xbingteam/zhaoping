@@ -57,7 +57,6 @@ export function findBusinessByLocation(param) {
     params: param
   });
 }
-
 /**
  * 通过省份查找商家信息
  * @param {Object} param {province:''}
