@@ -3,18 +3,18 @@
  * 求职列表页面
  * @Date: 2019-12-23 17:11:53 
  * @Last Modified by: weiyc
- * @Last Modified time: 2019-12-28 11:29:33
+ * @Last Modified time: 2019-12-28 20:27:44
  */
 <template>
-  
-  
-  <div>
-    <div class="btn">
-       <el-button size="mini" type="primary" plain>待联系</el-button>
-    </div>
-     
-<!-- {{emplData}} -->
-       <el-table
+<div class="qiuzhi">
+  <div class="main">
+      <div class="btn">
+       <el-button @click="toGuolv"  type="primary" plain>待联系</el-button>
+      </div>
+<!-- 表格 -->
+  <div class="tabDiv">
+    <el-table
+    :header-cell-style="headClass"
     :data="jobList"
     tooltip-effect="dark"
     style="width: 100%"
@@ -49,38 +49,49 @@
      align="center"
       >
     </el-table-column>
-  </el-table>
+    </el-table>
+  </div>
   <!-- 查看模态框 -->
-<el-dialog :title="Jobhunter.realname" :visible.sync="dialogFormVisible" >
-   <div class="seeDiv">
+<el-dialog :title="Jobhunter.jobhunter?Jobhunter.jobhunter.realname:''" :visible.sync="dialogFormVisible" >
+  <el-row :gutter="20">
+  <el-col :span="12">
+ <div class="seeDiv">
         <span>性别：</span>
         <!-- {{Jobhunter}} -->
-        {{Jobhunter.gender}}
+        {{Jobhunter.jobhunter?Jobhunter.jobhunter.gender:''}}
       </div>
-      <div class="seeDiv">
+  </el-col>
+  <el-col :span="12"><div class="seeDiv">
         <span>最高学历：</span>
-        {{Jobhunter.education}}
-      </div>
-      <div class="seeDiv">
+        {{Jobhunter.jobhunter?Jobhunter.jobhunter.education:''}}
+      </div></el-col>
+</el-row>
+<el-row :gutter="20">
+  <el-col :span="12"><div class="seeDiv">
         <span>出生年月：</span>
-        {{Jobhunter.birth}}
-      </div>
-      <div class="seeDiv">
+        {{Jobhunter.jobhunter?Jobhunter.jobhunter.birth:''}}
+      </div></el-col>
+  <el-col :span="12"><div class="seeDiv">
         <span>工作经验：</span>
-        {{Jobhunter.workTime}}
-      </div>     
+        {{Jobhunter.jobhunter?Jobhunter.jobhunter.workTime:''}}
+      </div> </el-col>
+</el-row>
 </el-dialog>
-<div class="pagi">
-      <el-pagination
-        @current-change="currentChange"
-        :current-page.sync="currentPage"
-        size="mini"
-        background
-        layout="prev, pager, next"
-        :total="emplData.length"
-      ></el-pagination>
+
+<!-- 分页 -->
+    <div class="pagi">
+        <el-pagination
+          @current-change="currentChange"
+          :current-page.sync="currentPage"
+          size="mini"
+          background
+          layout="prev, pager, next"
+          :total="emplData.length"
+        ></el-pagination>
     </div>
-  </div>
+</div>
+</div>
+
 </template>
 
 <script>
@@ -120,6 +131,19 @@ export default {
     },
   },
   methods: {
+         // 表头样式设置
+    headClass () {
+      return 'background:#008080;color:#fff;height:50px;font-size:16px;'
+    },
+
+      toGuolv(){
+          let res = this.emplData.filter(item => {
+              return item.remark;
+            });
+          this.emplData = res;
+         
+     },
+
       toSee(row){
         this.dialogFormVisible = true;
         this.Jobhunter = { ...row };
@@ -181,16 +205,20 @@ export default {
   margin-top: 10px;
   }
 .btn{
-  margin-top: 10px;
-  float: left;
+  margin-top: 3em;
   margin-bottom: 10px;
 }
-.seeDiv {
-  border-bottom: 1px solid #ccc;
-  line-height: 30px;
-  font-weight: bold;
-  span {
-    color: #777;
-  }
+.seeDiv{
+  padding: 10px;
+}
+.main{
+  margin-left: 10%;
+  margin-right:10%
+}
+
+.tabDiv{
+  margin-top: 2em;
+  width:100%;
+  border: 2px solid #008080;
 }
 </style>
