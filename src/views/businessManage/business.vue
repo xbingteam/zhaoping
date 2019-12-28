@@ -2,14 +2,14 @@
  * @Author: Lisa 
  * @Date: 2019-12-28 17:35:04 
  * @Last Modified by: Lisa
- * @Last Modified time: 2019-12-28 17:45:51
+ * @Last Modified time: 2019-12-28 18:33:55
  */
 
 <template>
   <div id="businessList">
     <div class="main">
     <div class="searchDiv">
-      <el-select @change="provinceChange" size="mini" v-model="province" clearable placeholder="省份">
+      <el-select @change="provinceChange" v-model="province" clearable placeholder="省份">
         <el-option
           v-for="item in provinceData"
           :key="item.id"
@@ -17,13 +17,13 @@
           :value="item.name"
         ></el-option>
       </el-select>
-      <el-select @change="cityChange" size="mini" v-model="city" clearable placeholder="城市">
+      <el-select @change="cityChange" v-model="city" clearable placeholder="城市">
         <el-option v-for="item in cityData" :key="item.id" :label="item.name" :value="item.name"></el-option>
       </el-select>
-      <el-select @change="industryChange" size="mini" v-model="industry" clearable placeholder="行业">
+      <el-select @change="industryChange" v-model="industry" clearable placeholder="行业">
         <el-option v-for="item in industryData" :key="item" :label="item" :value="item"></el-option>
       </el-select>
-      <el-select @change="scaleChange" size="mini" v-model="scale" clearable placeholder="规模">
+      <el-select @change="scaleChange" v-model="scale" clearable placeholder="规模">
         <el-option v-for="item in scaleData" :key="item" :label="item" :value="item"></el-option>
       </el-select>
     </div>
@@ -177,12 +177,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- <el-form-item label="活动区域" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button size="mini" @click="editVisible = false">取 消</el-button>
@@ -194,8 +188,8 @@
 </template>
 
 <script>
-import { findAllProvince } from "@/api/province.js";
-import { findAllCity, findCityByProvinceId } from "@/api/city.js";
+import { findAllProvince } from "@/api/province_zhuyanling.js";
+import { findAllCity, findCityByProvinceId } from "@/api/city_zhuyanling.js";
 import {
   findAllBusiness,
   findBusinessByProvince,
