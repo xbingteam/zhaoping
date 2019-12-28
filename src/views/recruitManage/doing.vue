@@ -1,23 +1,21 @@
 <template>
   <div class="recruiting">
+    <!-- {{EmploymentTypeData}} -->
     <div class="searchDiv">
      <el-dropdown>
-       <el-select @change="EmploymentChange" size="mini" v-model="Employment" clearable placeholder="职位类型">
-
-        <el-option
-          v-for="item in EmploymentData"
-          :key="item.id"
-          :label="item.job"
-          :value="item.job"
-        ></el-option>
+       <el-select @change="EmploymentChange(Employment)" size="mini" v-model="Employment" clearable placeholder="职位类型">
+          <el-option
+          v-for="item in EmploymentDataList"
+          :key="item"
+          :label="item"
+          :value="item">
+          </el-option>
       </el-select>
     </el-dropdown>
-
     </div>
     <!-- 表格 -->
     <div class="tableDiv">
     <el-table
-  
         :data="EmploymentList"
         tooltip-effect="dark"
         style="width: 100%;"
@@ -29,21 +27,16 @@
       <el-table-column prop="contactPhone" label="联系方式"></el-table-column>
       <el-table-column prop="job" label="职位"></el-table-column>
       <el-table-column prop="publishTime" label="发布时间"></el-table-column>
-      <!-- <el-table-column align="center" label="详情" >
-          <template >
-            <el-button type="text" @click="dialogVisible = true"></el-button>
-          </template>
-        </el-table-column> -->
-        <el-table-column align="center" label="详情">
+      <el-table-column align="center" label="详情">
           <template slot-scope="scope">
             <el-button @click="toSee(scope.row)" type="text" size="small">查看</el-button>
           </template>
-        </el-table-column>
+      </el-table-column>
       <el-table-column  label="操作" width="100%">
-      <template slot-scope="scope">
-        <el-button @click="toEdit(scope.row.id)" type="text" size="mini">修改</el-button>
-      <el-button @click="toDelete(scope.row.id)" type="text" size="mini">删除</el-button>
-      </template>
+        <template slot-scope="scope">
+          <el-button @click="toEdit(scope.row.id)" type="text" size="mini">修改</el-button>
+          <el-button @click="toDelete(scope.row.id)" type="text" size="mini">删除</el-button>
+        </template>
       </el-table-column>
       </el-table>
     </div>
@@ -55,8 +48,8 @@
       <!-- 页面交换 -->
       <div class="pageDiv" style="float:right;">
            <el-pagination
-           :page-size="pageSize"
-           :current-page.sync="currentPage"
+              :page-size="pageSize"
+              :current-page.sync="currentPage"
               background
               layout="prev, pager, next"
               :total="EmploymentData.length">
@@ -97,19 +90,7 @@
           <img :src="currentBus.businessLicense" alt width="200" height="150" />
         </a>
       </div>
-    </el-dialog>
-   <!-- <el-dialog
-  title="提示"
-  :visible.sync="dialogVisible"
-  width="30%"
-  :before-close="handleClose">
-  <span>这是一段信息</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-  </span>
-</el-dialog> -->
-    
+    </el-dialog> 
     <!-- 修改模态框 -->
     <el-dialog title="修改招聘信息" :visible.sync="editVisible" width="50%">
   <el-form :model="currentBus">
@@ -144,15 +125,25 @@
     </el-row>
 
     <el-row>
-      <el-col :span="24"><div class="grid-content bg-purple"><el-form-item label="职位标签" :label-width="formLabelWidth">
-      <el-input v-model="currentBus.name" ></el-input>
-    </el-form-item></div></el-col>
+      <el-col :span="24">
+        <div class="grid-content bg-purple">
+          <el-form-item label="职位标签" :label-width="formLabelWidth">
+            <el-input v-model="currentBus.name" >
+            </el-input>
+          </el-form-item>
+        </div>
+      </el-col>
     </el-row>
 
     <el-row>
-      <el-col :span="12"><div class="grid-content bg-purple"><el-form-item label="招聘时长" :label-width="formLabelWidth">
-      <el-input v-model="currentBus.name" ></el-input>
-    </el-form-item></div></el-col>
+      <el-col :span="12">
+        <div class="grid-content bg-purple">
+          <el-form-item label="招聘时长" :label-width="formLabelWidth">
+              <el-input v-model="currentBus.name" >
+              </el-input>
+          </el-form-item>
+        </div>
+      </el-col>
       <el-col :span="12"><div class="grid-content bg-purple"><el-form-item label="工作时间" :label-width="formLabelWidth">
       <el-input v-model="currentBus.name" ></el-input>
     </el-form-item></div></el-col>
@@ -183,7 +174,6 @@ import { findEmploymentByJob } from "@/api/employment_wh.js";
 export default {
   data() {
     return {
-      EmploymentData:[],
       Employment:"",
        dialogVisible: false,
       //当前查看或修改的对象
@@ -201,25 +191,37 @@ export default {
       //招聘列表
       // EmploymentList:[],
       //招聘数据
-      EmploymenttypeData:[],
+      EmploymentTypeData:[],
       EmploymentData: [],
       pageSize:config.pageSize,
       ids:[],
     };
   },
   computed: {
-    toSee(row) {
-      this.currentBus = { ...row };
-      this.seeVisible = true;
-    },
+    //   toSee(row) {
+    //   this.currentBus = { ...row };
+    //   this.seeVisible = true;
+    // },
+    
     EmploymentList(){
       let temp = [...this.EmploymentData];
       let page = this.currentPage;
       let pageSize = config.pageSize;
       return temp.slice((page-1)*pageSize,page*pageSize)
+    },
+    EmploymentDataList(){
+      let msg =[];
+    this.EmploymentData.forEach(res=>{
+      msg.push(res.job)
+    });
+    msg = [...new Set(msg)]
+    console.log(msg)
+    return msg;
     }
   },
   methods: {
+    //去重
+    
     //模态框工种发生改变
     async dialogProChange(val) {
       this.currentBus.city = "";
@@ -278,8 +280,9 @@ export default {
     async findAllEmpType() {
       try {
         let res = await findEmploymentByJob();
-        this.EmploymentData = res.data;
+        this.EmploymentTypeData = res.data;
       } catch (error) {
+        console.log(error)
         config.errorMsg(this, "查找错误");
       }
     },
@@ -287,11 +290,11 @@ export default {
     async EmploymentChange(val) {
       if (val) {
         try {
-          let res = await findEmploymentByJob({ Employment: val });
+          let res = await findEmploymentByJob({ job: val });
           this.EmploymentData = res.data;
           this.currentPage = 1;
         } catch (error) {
-          config.errorMsg(this, "通过省份查找商家信息错误");
+          config.errorMsg(this, "信息错误");
         }
       } else {
         this.findAllEmp();
