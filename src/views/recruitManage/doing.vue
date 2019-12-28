@@ -3,11 +3,12 @@
     <div class="searchDiv">
      <el-dropdown>
        <el-select @change="EmploymentChange" size="mini" v-model="Employment" clearable placeholder="职位类型">
+
         <el-option
           v-for="item in EmploymentData"
           :key="item.id"
-          :label="item.name"
-          :value="item.name"
+          :label="item.job"
+          :value="item.job"
         ></el-option>
       </el-select>
     </el-dropdown>
@@ -20,6 +21,7 @@
         :data="EmploymentList"
         tooltip-effect="dark"
         style="width: 100%;"
+        @selection-change="selectionChange"
       >
       <el-table-column align="center" type="selection" width="55"></el-table-column>
       <el-table-column prop="title" label="招聘标题"></el-table-column>
@@ -27,9 +29,14 @@
       <el-table-column prop="contactPhone" label="联系方式"></el-table-column>
       <el-table-column prop="job" label="职位"></el-table-column>
       <el-table-column prop="publishTime" label="发布时间"></el-table-column>
-      <el-table-column align="center" label="详情" >
+      <!-- <el-table-column align="center" label="详情" >
           <template >
-            <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
+            <el-button type="text" @click="dialogVisible = true"></el-button>
+          </template>
+        </el-table-column> -->
+        <el-table-column align="center" label="详情">
+          <template slot-scope="scope">
+            <el-button @click="toSee(scope.row)" type="text" size="small">查看</el-button>
           </template>
         </el-table-column>
       <el-table-column  label="操作" width="100%">
@@ -67,7 +74,31 @@
     
 
     <!-- 模态框 -->
-   <el-dialog
+    <el-dialog :title="currentBus.name" :visible.sync="seeVisible">
+      <div class="seeDiv">
+        <span>行业类型：</span>
+        {{currentBus.industry}}
+      </div>
+      <div class="seeDiv">
+        <span>成立时间：</span>
+        {{currentBus.establishedTime}}
+      </div>
+      <div class="seeDiv">
+        <span>注册资本：</span>
+        {{currentBus.registeredCapital}}
+      </div>
+      <div class="seeDiv">
+        <span>公司规模：</span>
+        {{currentBus.scale}}
+      </div>
+      <div class="descDiv">&nbsp;&nbsp;&nbsp;&nbsp;{{currentBus.description}}</div>
+      <div class="imgDiv">
+        <a :href="currentBus.businessLicense" target="_blank">
+          <img :src="currentBus.businessLicense" alt width="200" height="150" />
+        </a>
+      </div>
+    </el-dialog>
+   <!-- <el-dialog
   title="提示"
   :visible.sync="dialogVisible"
   width="30%"
@@ -77,7 +108,7 @@
     <el-button @click="dialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
   </span>
-</el-dialog>
+</el-dialog> -->
     
     <!-- 修改模态框 -->
     <el-dialog title="修改招聘信息" :visible.sync="editVisible" width="50%">
@@ -152,7 +183,7 @@ import { findEmploymentByJob } from "@/api/employment_wh.js";
 export default {
   data() {
     return {
-      Employment:"",
+      EmploymentData:[],
       Employment:"",
        dialogVisible: false,
       //当前查看或修改的对象
@@ -173,9 +204,14 @@ export default {
       EmploymenttypeData:[],
       EmploymentData: [],
       pageSize:config.pageSize,
+      ids:[],
     };
   },
   computed: {
+    toSee(row) {
+      this.currentBus = { ...row };
+      this.seeVisible = true;
+    },
     EmploymentList(){
       let temp = [...this.EmploymentData];
       let page = this.currentPage;
@@ -199,7 +235,7 @@ export default {
     //批量删除
     toBatchDelete() {
       //获取要批量删除的id  this.id
-      let ids = ids;
+      let ids = this.ids;
       console.log(ids);
       if (ids.length > 0) {
         this.$alert("是否删除？", "提示", {
@@ -262,13 +298,13 @@ export default {
       }
     },
     //模态框
-     handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      },
+    //  handleClose(done) {
+    //     this.$confirm('确认关闭？')
+    //       .then(_ => {
+    //         done();
+    //       })
+    //       .catch(_ => {});
+    //   },
     //查看
     toSee(row){
      this.currentEnp = {...row};
@@ -285,7 +321,7 @@ export default {
     //复选框选中切换
     selectionChange(val) {
       //val 就是选中的对象组成的数组
-      console.log(val);
+      this.ids = val.map(item=>{return item.id});
     
     },
     // 查找所有招聘信息
