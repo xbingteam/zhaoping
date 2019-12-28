@@ -2,9 +2,9 @@
   <div class="recruiting">
     <div class="searchDiv">
      <el-dropdown>
-       <el-select @change="employmentChange" size="mini" v-model="employment" clearable placeholder="职位类型">
+       <el-select @change="EmploymentChange" size="mini" v-model="Employment" clearable placeholder="职位类型">
         <el-option
-          v-for="item in employmentData"
+          v-for="item in EmploymentData"
           :key="item.id"
           :label="item.name"
           :value="item.name"
@@ -17,7 +17,7 @@
     <div class="tableDiv">
     <el-table
   
-        :data="employmentList"
+        :data="EmploymentList"
         tooltip-effect="dark"
         style="width: 100%;"
       >
@@ -52,7 +52,7 @@
            :current-page.sync="currentPage"
               background
               layout="prev, pager, next"
-              :total="employmentData.length">
+              :total="EmploymentData.length">
             </el-pagination>
         </div>
     </div> 
@@ -90,7 +90,7 @@
   <el-row :gutter="20" >
           <el-col :span="12"><div class="grid-content bg-purple-light"><el-form-item label="选择工种" :label-width="formLabelWidth">
         <el-row >
-    <el-select @change="dialogProChange" v-model="currentBus.employment" placeholder="请选择活动区域">
+    <el-select @change="dialogProChange" v-model="currentBus.Employment" placeholder="请选择活动区域">
         <el-option label="区域一" value="shanghai"></el-option>
         <el-option label="区域二" value="beijing"></el-option>
     </el-select>
@@ -152,6 +152,8 @@ import { findEmploymentByJob } from "@/api/employment_wh.js";
 export default {
   data() {
     return {
+      Employment:"",
+      Employment:"",
        dialogVisible: false,
       //当前查看或修改的对象
       currentBus: {},
@@ -166,16 +168,16 @@ export default {
       seeVisible:false,
       currentPage: 1,
       //招聘列表
-      // employmentList:[],
+      // EmploymentList:[],
       //招聘数据
-      employmenttypeData:[],
-      employmentData: [],
+      EmploymenttypeData:[],
+      EmploymentData: [],
       pageSize:config.pageSize,
     };
   },
   computed: {
-    employmentList(){
-      let temp = [...this.employmentData];
+    EmploymentList(){
+      let temp = [...this.EmploymentData];
       let page = this.currentPage;
       let pageSize = config.pageSize;
       return temp.slice((page-1)*pageSize,page*pageSize)
@@ -188,15 +190,17 @@ export default {
       try {
         let res = await findEmploymentByJob({ Employment: val });
         this.EmploymentData = res.data;
-      } catch (error) {
+        } catch (error) {
         console.log(error);
         config.errorMsg(this, "查找工种失败");
       }
     },
+    
     //批量删除
     toBatchDelete() {
       //获取要批量删除的id  this.id
-      let ids = this.ids;
+      let ids = ids;
+      console.log(ids);
       if (ids.length > 0) {
         this.$alert("是否删除？", "提示", {
           confirmButtonText: "删除",
@@ -222,7 +226,7 @@ export default {
                 } else {
                   config.errorMsg(this, "批量删除失败");
                 }
-                this.findAllBus();
+                this.findAllEmp();
               }, 2000);
             }
           }
@@ -238,17 +242,17 @@ export default {
     async findAllEmpType() {
       try {
         let res = await findEmploymentByJob();
-        this.employmentData = res.data;
+        this.EmploymentData = res.data;
       } catch (error) {
         config.errorMsg(this, "查找错误");
       }
     },
     // 职业发生改变
-    async employmentChange(val) {
+    async EmploymentChange(val) {
       if (val) {
         try {
-          let res = await findEmploymentByJob({ employment: val });
-          this.employmentData = res.data;
+          let res = await findEmploymentByJob({ Employment: val });
+          this.EmploymentData = res.data;
           this.currentPage = 1;
         } catch (error) {
           config.errorMsg(this, "通过省份查找商家信息错误");
@@ -288,7 +292,7 @@ export default {
     async findAllEmp() {
       try {
         let res = await findAllEmployment();
-        this.employmentData = res.data.reverse();
+        this.EmploymentData = res.data.reverse();
       } catch (error) {
         console.log(error,'====')
         config.errorMsg(this, "查找错误");
