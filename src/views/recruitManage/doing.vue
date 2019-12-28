@@ -1,6 +1,5 @@
 <template>
   <div class="recruiting">
-    <!-- {{EmploymentTypeData}} -->
     <div class="searchDiv">
      <el-dropdown>
        <el-select @change="EmploymentChange(Employment)" size="mini" v-model="Employment" clearable placeholder="职位类型">
@@ -92,76 +91,80 @@
         </a>
       </div>
     </el-dialog> 
-    <!-- 修改模态框 -->
-    <el-dialog title="修改招聘信息" :visible.sync="editVisible" width="50%">
-  <el-form :model="currentBus">
-    <el-row>
-      <el-col :span="12"><div class="grid-content bg-purple"><el-form-item label="兼职名称" :label-width="formLabelWidth">
-      <el-input v-model="currentBus.name" ></el-input>
-    </el-form-item></div></el-col>
-    </el-row>
-  <el-row :gutter="20" >
-          <el-col :span="12"><div class="grid-content bg-purple-light"><el-form-item label="选择工种" :label-width="formLabelWidth">
-        <el-row >
-    <el-select @change="dialogProChange" v-model="currentBus.Employment" placeholder="请选择活动区域">
-        <el-option label="区域一" value="shanghai"></el-option>
-        <el-option label="区域二" value="beijing"></el-option>
-    </el-select>
-        </el-row>
-  </el-form-item></div></el-col>
-          <el-col :span="12">
-            <el-form-item prop="industry" label="招聘人数" :label-width="formLabelWidth" >
-              <el-input v-model="currentBus.industry" placeholder="请输入你要招聘的人数"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+                <!-- 修改模态框 -->
+          <el-dialog title="修改招聘信息" :visible.sync="editVisible" width="50%">
+              <el-form :model="currentBus">
+                <el-row>
+                  <el-col :span="12"><div class="grid-content bg-purple">
+                    <el-form-item label="兼职名称" :label-width="formLabelWidth">
+                      <el-input v-model="currentBus.name" ></el-input>
+                    </el-form-item></div></el-col>
+                </el-row>
+                <el-row :gutter="20" >
+                  <el-col :span="12"><div class="grid-content bg-purple-light"><el-form-item label="选择工种" :label-width="formLabelWidth">
+                <el-row >
+                <el-select @change="dialogProChange" v-model="currentBus.Employment" placeholder="请选择活动区域">
+                    <el-option label="区域一" value="shanghai"></el-option>
+                    <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+                    </el-row>
+              </el-form-item></div></el-col>
+                      <el-col :span="12">
+                        <el-form-item prop="industry" label="招聘人数" :label-width="formLabelWidth" >
+                          <el-input v-model="currentBus.industry" placeholder="请输入你要招聘的人数"></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
 
-    <el-row>
-      <el-col :span="12"><div class="grid-content bg-purple"><el-form-item label="招聘公司" :label-width="formLabelWidth">
-      <el-input v-model="currentBus.name" placeholder="修改招聘公司"></el-input>
-    </el-form-item></div></el-col>
-      <el-col :span="12"><div class="grid-content bg-purple"><el-form-item label="薪资水平" :label-width="formLabelWidth">
-      <el-input v-model="currentBus.name" placeholder="请输入薪资"></el-input>
-    </el-form-item></div></el-col>
-    </el-row>
+                <el-row>
+                  <el-col :span="12"><div class="grid-content bg-purple"><el-form-item label="招聘公司" :label-width="formLabelWidth">
+                  <el-input v-model="currentBus.name" placeholder="修改招聘公司"></el-input>
+                </el-form-item></div></el-col>
+                  <el-col :span="12"><div class="grid-content bg-purple"><el-form-item label="薪资水平" :label-width="formLabelWidth">
+                  <el-input v-model="currentBus.name" placeholder="请输入薪资"></el-input>
+                </el-form-item></div></el-col>
+                </el-row>
 
-    <el-row>
-      <el-col :span="24">
-        <div class="grid-content bg-purple">
-          <el-form-item label="职位标签" :label-width="formLabelWidth">
-            <el-input v-model="currentBus.name" >
-            </el-input>
-          </el-form-item>
-        </div>
-      </el-col>
-    </el-row>
+                <el-row>
+                  <el-col :span="24">
+                    <div class="grid-content bg-purple">
+                      <el-form-item label="职位标签" :label-width="formLabelWidth">
+                        <el-input v-model="currentBus.name" >
+                        </el-input>
+                      </el-form-item>
+                    </div>
+                  </el-col>
+                </el-row>
 
-    <el-row>
-      <el-col :span="12">
-        <div class="grid-content bg-purple">
-          <el-form-item label="招聘时长" :label-width="formLabelWidth">
-              <el-input v-model="currentBus.name" >
-              </el-input>
-          </el-form-item>
-        </div>
-      </el-col>
-      <el-col :span="12"><div class="grid-content bg-purple"><el-form-item label="工作时间" :label-width="formLabelWidth">
-      <el-input v-model="currentBus.name" ></el-input>
-    </el-form-item></div></el-col>
-    </el-row>
+                <el-row>
+                  <el-col :span="12">
+                    <div class="grid-content bg-purple">
+                      <el-form-item label="招聘时长" :label-width="formLabelWidth">
+                          <el-input v-model="currentBus.name" >
+                          </el-input>
+                      </el-form-item>
+                    </div>
+                  </el-col>
+                  <el-col :span="12"><div class="grid-content bg-purple">
+                    <el-form-item label="工作时间" :label-width="formLabelWidth">
+                      <el-input v-model="currentBus.name">
 
-<el-row>
-  <el-col :span="24">
-            <el-form-item prop="location" label="职位描述" :label-width="formLabelWidth">
-              <el-input type="textarea" :rows="4" v-model="currentBus.location"></el-input>
-            </el-form-item>
-          </el-col>
-</el-row>
-
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button type="primary" plain>确定</el-button>
-  </div>
+                      </el-input>
+                    </el-form-item>
+                  </div>
+                </el-col>
+                </el-row>
+            <el-row>
+              <el-col :span="24">
+                        <el-form-item prop="location" label="职位描述" :label-width="formLabelWidth">
+                          <el-input type="textarea" :rows="4" v-model="currentBus.location"></el-input>
+                        </el-form-item>
+                      </el-col>
+            </el-row>
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button type="primary" plain>确定</el-button>
+              </div>
 </el-dialog>
   </div>
 </template>
@@ -305,14 +308,7 @@ export default {
         this.findAllEmp();
       }
     },
-    //模态框
-    //  handleClose(done) {
-    //     this.$confirm('确认关闭？')
-    //       .then(_ => {
-    //         done();
-    //       })
-    //       .catch(_ => {});
-    //   },
+
     //查看
     toSee(row){
      this.currentEnp = {...row};
