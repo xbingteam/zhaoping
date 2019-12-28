@@ -20,6 +20,7 @@
         tooltip-effect="dark"
         style="width: 100%;"
         @selection-change="selectionChange"
+        :header-cell-style="headClass"
       >
       <el-table-column align="center" type="selection" width="55"></el-table-column>
       <el-table-column prop="title" label="招聘标题"></el-table-column>
@@ -42,7 +43,7 @@
     </div>
     <!-- foot -->
     <div style="">
-      <div class="btnDiv">
+      <div class="btnDiv" style="float:left;">
         <el-button @click="toBatchDelete" size="mini" type="danger" plain>批量删除</el-button>
       </div>
       <!-- 页面交换 -->
@@ -220,6 +221,10 @@ export default {
     }
   },
   methods: {
+    // 表头样式设置
+    headClass () {
+      return 'background:#008080;color:#fff;height:50px;font-size:16px;'
+    },
     //去重
     
     //模态框工种发生改变
@@ -391,4 +396,10 @@ export default {
       color: #777;
     }
   }
+  .tableDiv{
+  margin-top: 2em;
+  width:100%;
+  border: 2px solid #008080;
+}
+
   </style>
