@@ -2,13 +2,15 @@
  * @Author: liuyr 
  * 客服管理页面
  * @Date: 2019-12-23 20:59:21 
- * @Last Modified by: liuyr
- * @Last Modified time: 2019-12-23 21:09:21
+ * @Last Modified by: Lisa
+ * @Last Modified time: 2019-12-28 19:10:29
  */
 <template>
   <div id="waiterManage">
     <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="客服列表" name="waiter"></el-tab-pane>
+      <el-tab-pane label="客服列表" name="waiter">
+        <span slot="label" style="padding: 0 40px;font-size: 1.2em;">客服列表</span>
+      </el-tab-pane>
     </el-tabs>
     <!-- 选项卡体部 -->
     <div class="tbl-content">
@@ -35,4 +37,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+ /deep/ .el-tabs__item {
+    height: 45px;
+    line-height: 45px;
+}
 </style>

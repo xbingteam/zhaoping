@@ -2,13 +2,15 @@
  * @Author: liuyr
  * 商家列表页面
  * @Date: 2019-12-22 16:49:20 
- * @Last Modified by: liuyr
- * @Last Modified time: 2019-12-23 21:05:33
+ * @Last Modified by: Lisa
+ * @Last Modified time: 2019-12-28 18:54:15
  */
 <template>
   <div id="businessManage">
     <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="商家列表" name="business"></el-tab-pane>
+      <el-tab-pane label="商家列表" name="business">
+        <span slot="label" style="padding: 0 40px;font-size: 1.2em;">商家列表</span>
+      </el-tab-pane>
     </el-tabs>
     <!-- 选项卡体部 -->
     <div class="tbl-content">
@@ -35,4 +37,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+ /deep/ .el-tabs__item {
+    height: 45px;
+    line-height: 45px;
+}
 </style>

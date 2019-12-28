@@ -2,14 +2,14 @@
  * @Author: liuyr 
  * 用户管理页面
  * @Date: 2019-12-23 20:59:21 
- * @Last Modified by: liuyr
- * @Last Modified time: 2019-12-23 21:03:39
+ * @Last Modified by: Lisa
+ * @Last Modified time: 2019-12-28 19:08:39
  */
 <template>
   <div id="userManage">
     <el-tabs type="card" v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="用户列表" name="user">
-        <!-- <span slot="label" style="padding: 0 40px;">用户列表</span> -->
+        <span slot="label" style="padding: 0 40px;font-size: 1.2em;">用户列表</span>
       </el-tab-pane>
     </el-tabs>
     <!-- 选项卡体部 -->
@@ -38,4 +38,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+ /deep/ .el-tabs__item {
+    height: 45px;
+    line-height: 45px;
+}
 </style>
