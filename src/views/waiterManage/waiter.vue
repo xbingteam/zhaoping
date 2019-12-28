@@ -3,10 +3,11 @@
  * 客服列表页面
  * @Date: 2019-12-23 17:11:53 
  * @Last Modified by: chengyf
- * @Last Modified time: 2019-12-28 14:32:54
+ * @Last Modified time: 2019-12-28 16:19:00
  */
  <template>
   <div id="CustomerServiceList">
+    <div class="main">
     <div class="searchDiv">
       <el-select @change="statusChange" size="mini" v-model="status" clearable placeholder="状态">
         <el-option v-for="item in statusData" :key="item" :label="item" :value="item"></el-option>
@@ -38,36 +39,38 @@
       <el-button  @click="putinWaiter" type="primary" size="mini" icon="el-icon-upload">导入客服</el-button>
 </template>
 <el-dialog title="添加客服信息" :visible.sync="addWai">
-  <el-form :model="form">
+  <el-form :model="addform" :rules="rules" ref="ruleForm"
+>
     <el-form-item label="用户名" :label-width="formLabelWidth">
-      <el-input v-model="form.username" autocomplete="off"></el-input>
+      <el-input v-model="addform.username" autocomplete="off"></el-input>
     </el-form-item>
     <el-form-item label="姓名" :label-width="formLabelWidth">
-      <el-input v-model="form.realname" autocomplete="off"></el-input>
+      <el-input v-model="addform.realname" autocomplete="off"></el-input>
     </el-form-item>
     <el-form-item label="性别" :label-width="formLabelWidth">
-      <el-select v-model="form.gender" placeholder="请选择性别">
+      <el-select v-model="addform.gender" placeholder="请选择性别">
         <el-option label="男" value="male"></el-option>
         <el-option label="女" value="female"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="状态" :label-width="formLabelWidth">
-      <el-select v-model="form.status" placeholder="请选择状态">
+      <el-select v-model="addform.status" placeholder="请选择状态">
         <el-option label="在线" value="online"></el-option>
         <el-option label="离线" value="disonlie"></el-option>
       </el-select>
     </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">
-    <el-button @click="toCancel = false">取 消</el-button>
-    <el-button type="primary" @click="toSave = false">确 定</el-button>
+    <el-button @click="toCancel('ruleForm')">取 消</el-button>
+    <el-button type="primary" @click="toSave('ruleForm')">确 定</el-button>
   </div>
 </el-dialog>
 </div>
 </div>
     <div class="tableDiv">
     <el-table ref="multipleTable" :data="CustomerServiceList" tooltip-effect="dark" style="width: 100%"
-    @selection-change = "selectionChange">
+    @selection-change = "selectionChange" :header-cell-style="headClass"
+>
     <el-table-column align="center" type="selection" width="55">
 
     </el-table-column>
@@ -117,18 +120,34 @@
 </el-dialog>
   </div>
   </div>
+</div>
 </template>
 <script>
 import { findAllCustomerService } from "@/api/waiter.js";
 import { deleteCustomerServiceById } from "@/api/waiter.js";
 import { findCustomerServiceByEducation } from "@/api/waiter.js";
-import { findCustomerServiceByGender } from "@/api/waiter.js";
+import { findCustomerServiceByGender,saveOrUpdateCustomerService} from "@/api/waiter.js";
 import config from'@/utils/config.js'
 export default {
   data() {
     return {
+            rules: {
+          username: [
+            { required: true, message: '请输入公司名称', trigger: 'blur' },
+          ],
+          realname:[
+            { required: true, message: '请输入行业类型', trigger: 'blur' },
+          ],
+          scale:[
+            { required: true, message: '请输入公司规模', trigger: 'blur' },
+          ],
+          gender:[
+            { required: true, message: '请输入联系人', trigger: 'blur' },
+          ],
+         
+        },
       addWai: false,
-        form: {
+        addform: {
           username: '',
           realname: '',
           date1: '',
@@ -196,20 +215,56 @@ export default {
     }
   },
   methods: {
-    //关闭添加客服模态框
-    toCancel(){
-       this.editVisible = false;
+     // 表头样式设置
+    headClass () {
+      return 'background:#008080;color:#fff;height:50px;font-size:16px;'
+    },
+
+    //关闭模态框
+      beforeClose(){
+      //重置表单验证，关闭模态框
+      this.$refs["ruleForm"].resetFields();
+      this.addWai = false;
+    },
+    //关闭模态框
+    toCancel(formName) {
+      //重置表单验证，关闭模态框
+      this.$refs[formName].resetFields();
+      this.addWai = false;
+    },
+    //保存
+        toSave(formName) {
+      this.$refs[formName].validate(async valid => {
+        if (valid) {
+          //保存
+          try {
+            let res = await saveOrUpdateCustomerService(this.addform);
+            if (res.status === 200) {
+              this.findAllCs();
+              this.addWai = false;
+              config.successMsg(this, "添加成功");
+            } else {
+              config.errorMsg(this, "添加失败");
+            }
+          } catch (error) {
+            console.log(error);
+            config.errorMsg(this, "添加失败");
+          }
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
     //添加客服
     addWaiter(){
       this.addWai =true;
+      this.addform={}
     },
     //经手人信息
     waiter(){
       this.waiterMessage =true;
     },
-    //关闭模态框
-      beforeClose(){},
     //分配
     toGive(row){
       this.showfp =true;
@@ -347,9 +402,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.tableDiv {
-  margin-top: 10px;
+
+.tableDiv{
+  margin-top: 2em;
+  width:100%;
+  border: 2px solid #008080;
 }
+
 .footerDiv{
   overflow: hidden;
   margin-top: 10px;
@@ -362,5 +421,12 @@ export default {
 }
 .addWaiterDiv{
   float: right;
+}
+.main{
+  margin-left: 10%;
+  margin-right:10%
+}
+.searchDiv{
+  margin-top: 3em;
 }
 </style>
