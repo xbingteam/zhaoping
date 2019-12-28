@@ -1,7 +1,10 @@
 <template>
   <div class="recruiting">
+    <div class="main">
     <!-- {{EmploymentTypeData}} -->
     <div class="searchDiv">
+      <el-row>
+          <div style="float:left;">
      <el-dropdown>
        <el-select @change="EmploymentChange(Employment)" size="mini" v-model="Employment" clearable placeholder="职位类型">
           <el-option
@@ -10,8 +13,14 @@
           :label="item"
           :value="item">
           </el-option>
-      </el-select>
+       </el-select>
     </el-dropdown>
+        </div>
+        <div style="float:right;">
+        <el-button type="primary" plain>发布职位</el-button>
+        <el-button type="success" plain>导入职位</el-button>
+        </div>
+      </el-row>
     </div>
     <!-- 表格 -->
     <div class="tableDiv">
@@ -58,12 +67,12 @@
         </div>
     </div> 
     <!-- 发布职位 -->
-    <div style="position:absolute; right:20px; top:43px;">
+    <!-- <div style="position:absolute; right:10%; top:6%;">
       <el-row>
         <el-button type="primary" plain>发布职位</el-button>
         <el-button type="success" plain>导入职位</el-button>
       </el-row>
-    </div>
+    </div> -->
     <!-- 详情 -->
     
 
@@ -163,6 +172,7 @@
     <el-button type="primary" plain>确定</el-button>
   </div>
 </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -396,6 +406,10 @@ export default {
       color: #777;
     }
   }
+  .main{
+  margin-left: 10%;
+  margin-right: 10%;
+}
   .tableDiv{
   margin-top: 2em;
   width:100%;
