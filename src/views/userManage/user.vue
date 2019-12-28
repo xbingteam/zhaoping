@@ -2,7 +2,7 @@
  * @Author: Lisa 
  * @Date: 2019-12-28 09:08:51 
  * @Last Modified by: Lisa
- * @Last Modified time: 2019-12-28 16:13:27
+ * @Last Modified time: 2019-12-28 17:20:50
  */
 <template>
   <div id="userList">
@@ -10,14 +10,14 @@
       <div class="row">
       <!-- 1.添加用户按钮 -->
       <div class="addbtnDiv">
-          <el-button @click="toAdd" type="primary" icon="el-icon-edit">添加用户</el-button>
+          <el-button @click="toAdd" type="primary" icon="el-icon-edit" size="mini">添加用户</el-button>
       </div>
       <!-- 按条件查找选择框 -->
       <div class="searchDiv">
-         <el-select @change="educationChange"  v-model="education" clearable placeholder="学历" >
+         <el-select size="mini" @change="educationChange"  v-model="education" clearable placeholder="学历" >
             <el-option v-for="item in educationData" :key="item"  :label="item" :value="item"></el-option>
          </el-select>
-         <el-select @change="genderChange" v-model="gender" clearable placeholder="性别" >
+         <el-select size="mini" @change="genderChange" v-model="gender" clearable placeholder="性别" >
             <el-option v-for="item in genderData" :key="item" :label="item" :value="item"> </el-option>
          </el-select>
       </div>
@@ -145,14 +145,13 @@
         <el-button type="primary" @click="toAddSave('ruleForm')" size="mini">确 定</el-button>
       </div>
     </el-dialog>
-
+    <div class="footerDiv">
     <!-- 多个删除按钮 -->
-    <div class="deleteDiv">
-       <el-button @click="toBatchDelete" type="danger" plain>批量删除</el-button>
-    </div>
+       <el-button @click="toBatchDelete" type="danger" plain size="mini">批量删除</el-button>
     <!-- 分页 -->
     <div class="page">
       <el-pagination background layout="prev, pager, next" :page-size="pageSize" @current-change="currentChange" :current-page.sync="currentPage" :total="userData.length"></el-pagination>
+    </div>
     </div>
     </div>
   </div>
@@ -407,26 +406,6 @@ export default {
     headClass () {
       return 'background:#008080;color:#fff;height:50px;font-size:16px;'
     },
-    //删除框
-    // open() {
-    //     this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-    //       confirmButtonText: '确定',
-    //       cancelButtonText: '取消',
-    //       type: 'warning'
-    //     }).then(() => {
-    //       this.toSingleDelete();
-    //       this.$message({
-    //         type: 'success',
-    //         message: '删除成功!'
-    //       });
-    //       this.findAllUser();
-    //     }).catch(() => {
-    //       this.$message({
-    //         type: 'info',
-    //         message: '已取消删除'
-    //       });          
-    //     });
-    //   }
     //学历发生改变
     async educationChange(val){
       this.gender = '';
@@ -486,13 +465,24 @@ export default {
 .addbtnDiv{
   float: right;
 }
-.page{
-  margin-top: 20px;
-  float: right;
-  margin-right: 0;
-}
-.deleteDiv{
-  margin-top: 20px;
-  float: left;
+// .page{
+//   margin-top: 20px;
+//   float: right;
+//   margin-right: 0;
+// }
+// .deleteDiv{
+//   margin-top: 20px;
+//   float: left;
+// }
+.footerDiv{
+  overflow: hidden;
+    margin-top: 10px;
+
+  .deleteDiv{
+    float: left;
+  }
+  .page{
+    float: right;
+  }
 }
 </style>
