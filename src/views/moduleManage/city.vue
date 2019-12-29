@@ -15,7 +15,7 @@
         <div class="row el-col-24">
           <!-- 使用卡片的形式展示 -->
           <!-- 主体内容 -->
-          <div class="el-col-8 adv_model contact"  style="height:320px;display: inline-block;" v-for="province in provinces">
+          <div class="el-col-6 adv_model contact"  style="height:320px;display: inline-block;" v-for="province in provinces">
             <!-- 名称 -->
             <div class="row adv_model_title">
               
@@ -37,7 +37,7 @@
               <!-- 标签的管理  (删除修改) -->
               <div style="display: inline" v-for="city in citys" >
                 <div style="display: inline-block;margin-left: 1em;"  v-if="city.provinceId==province.id">
-                <el-popover width="50" v-model="city.visible" close-delay="0" open-delay="0">
+                <el-popover width="50" v-model="city.visible" :close-delay="0" :open-delay="0">
                   <div style="text-align: center; margin: 0">
                     <el-button size="mini" type="danger" @click="deleteCity(city.id,city)">删除</el-button>
                   </div>
@@ -73,7 +73,6 @@
 
 <script>
   import { findAllCity,findAllProvince,deleteCityByid,ToaddCity,ToaddProvince,deleteProvince } from "@/api/city.js"
-  import axios from '@/utils/axios'
 export default {
   data() {
     return {
@@ -113,7 +112,6 @@ export default {
         });
       }
     },
-
     // 查找所有的省份
     async findAllProvince(){
       try{
@@ -223,7 +221,6 @@ export default {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     text-align: center;
-
   }
   .adv_model_context{
     margin-left: 10%;
@@ -244,5 +241,6 @@ export default {
     background-color: rgb(91, 156, 241);
     color: #fff;
   }
+ 
  
 </style>

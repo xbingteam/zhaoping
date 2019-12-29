@@ -13,7 +13,6 @@
       </el-tab-pane>
       <el-tab-pane label="福利管理" name="boon">
         <span slot="label" style="padding: 0 40px;font-size: 1.2em;">福利管理</span>
-
       </el-tab-pane>
       <el-tab-pane label="职位管理" name="position">
         <span slot="label" style="padding: 0 40px;font-size: 1.2em;">职位管理</span>

@@ -12,14 +12,16 @@
     <el-button @click="newCard" style="margin-left:80%;" icon="el-icon-circle-plus-outline" type="warning" size="small" round >添加类型</el-button>
     </div>
 
-      <div style="margin-top:20px">
+      <div  style="margin-top:20px;">
         <el-card class="box-card" shadow="hover"  v-if="card" >
         <div slot="header" class="clearfix" >
           <span>{{input}}</span>
+          <el-button style="float: right; padding: 3px 0;font-size: 2em;color: #fff;" type="text" @click="card=false">×</el-button>
           <el-input @change="newinp(input)" v-if="inp" style="width:120px" v-model="input" placeholder="请输入类型"></el-input>
         </div>
+        
         <div>
-       <el-button  class="button-new-tag" size="small" >新增</el-button>
+        <el-button  class="button-new-tag" size="small" >新增</el-button>
         </div>
       </el-card>
     </div>
@@ -32,13 +34,13 @@
           <span>{{item.name}}</span>
         </div>
         <div v-for="pro in jobData" :key="pro.id">
-        <el-tag class="tag"   type="info" v-if="item.id===pro.jobTypeId" closable  @close="delete_job(pro.id)"> 
+        <el-tag class="tag"    v-if="item.id===pro.jobTypeId" closable  @close="delete_job(pro.id)"> 
           {{pro.name}}
         </el-tag>
         </div >
          <el-button v-if="!item.show_add" class="button-new-tag" size="small" type="success" plain  @click="item.show_add=true">+ 新增</el-button>
 
-                  <el-input style="width:15%;"
+              <el-input style="width:15%;"
               class="input-new-tag"
               v-if="item.show_add"
               v-model="inputValue"
@@ -53,10 +55,6 @@
         </div>
       </el-card>
     </div>
-
-  
-
-
   </div>
 </template>
 
@@ -195,7 +193,7 @@ export default {
   }
 
   .box-card {
-    width: 80%;
+    width: 60%;
     margin:0 auto;
     margin-top: 20px;
   }

@@ -8,11 +8,11 @@
 <template>
   <div id="moduleBoon">
     <!-- :data="welfareDate.slice((currentPage-1)*pageSize,currentPage* pageSize)" -->
-    <div style="margin-top:1em">
+    <!-- <div style="margin-top:1em">
         <el-select @change="welfareChange"  v-model="welfare" clearable placeholder="全部">
         <el-option v-for="item in nameDate" :key="item" :label="item" :value="item"></el-option>
-      </el-select>
-      </div>
+        </el-select>
+    </div> -->
 
       <div class="tableDiv">
       <el-table style="margin-top :15px"
@@ -223,5 +223,9 @@ export default {
   }
   #page{
      margin-top :15px
+  }
+  #moduleBoon{
+    margin-left: 10%;
+    margin-right: 10%;
   }
 </style>
