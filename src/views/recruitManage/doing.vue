@@ -17,8 +17,8 @@
     </el-dropdown>
         </div>
         <div style="float:right;">
-        <el-button type="primary" plain>发布职位</el-button>
-        <el-button type="success" plain>导入职位</el-button>
+        <el-button type="primary"  @click="show_publish=true">发布职位</el-button>
+        <el-button type="success" >导入职位</el-button>
         </div>
       </el-row>
     </div>
@@ -42,7 +42,7 @@
       <el-table-column align="center"  width="100" label="详情">
           <template slot-scope="scope">
             <el-button @click="toSee(scope.row)" type="text" size="small">查看</el-button>
-            <el-dialog :title="scope.row.title" :visible.sync="scope.row.show_description" width="35%">
+            <el-dialog :title="scope.row.title" :visible.sync="scope.row.show_description" width="35%" style="padding-top: 0em;">
               <div class="seeDiv" align="left">
                 <p>
                   <span>行业类型：</span>
@@ -100,7 +100,7 @@
         <template slot-scope="scope">
           <el-button @click="toEdit(scope.row)" type="primary" size="mini">修改</el-button>
           <!-- 修改展示页面 -->
-          <el-dialog title="修改招聘信息" :visible.sync="scope.row.show_update" width="50%">
+          <el-dialog title="修改招聘信息" :visible.sync="scope.row.show_update" width="50%"  style="padding-top: 0em;">
             <el-form :model="currentBus">
               <el-row>
                 <el-col :span="12"><div class="grid-content bg-purple">
@@ -159,6 +159,7 @@
     
                     </el-input>
                   </el-form-item>
+
                 </div>
               </el-col>
               </el-row>
@@ -177,6 +178,7 @@
           <el-button @click="toDelete(scope.row.id)" type="danger" size="mini">删除</el-button>
         </template>
       </el-table-column>
+
       </el-table>
     </div>
     <!-- foot -->
@@ -195,6 +197,132 @@
             </el-pagination>
         </div>
     </div> 
+    <div>
+          <!-- 发布职位 -->
+    <el-dialog :title="发布职位" :visible.sync="show_publish" width="50%" class="publish_form">
+      <span slot="title" style="color: black;text-align: left; font-size: 1.5em; font-weight: 600;padding-left: 8px;margin-left: 45%;">发布招聘</span>
+      <div style="border-radius: 10px; ">
+        <!-- 兼职名字 -->
+        <div class="row" style="margin-top: 2em;">
+          <el-form>
+            <el-form-item label="职位名称:" label-width="8em">
+              <span slot="label" style="font-size: 1.2em;font-weight: 600;">职位名称:</span>
+              <el-input v-model ='post_bean.title' style="width: 98%;"></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
+        <!-- 发布人和联系方式 -->
+        <div class="row ">
+          <div class="publis_post">
+            <el-form>
+              <el-form-item label="发布人:"  label-width="8em"> 
+                <span slot="label" style="font-size: 1.2em;font-weight: 600;">发布人:</span>
+                <el-input v-model ='post_bean.contactName'></el-input>
+              </el-form-item>
+            </el-form>
+          </div>
+          <div class="publis_post">
+            <el-form>
+              <el-form-item label="联系方式:" label-width="8em">
+                <span slot="label" style="font-size: 1.2em;font-weight: 600;">联系方式:</span>
+                <el-input v-model ='post_bean.contactPhone'></el-input>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+        <!-- 福利和工资 -->
+        <div class="row ">
+          <div class="publis_post">
+            <el-form>
+              <el-form-item label="福利:"  label-width="8em">
+                <span slot="label" style="font-size: 1.2em;font-weight: 600;">福利:</span>
+                <el-input v-model ='post_bean.welfare'></el-input>
+              </el-form-item>
+            </el-form>
+          </div>
+          <div class="publis_post">
+            <el-form>
+              <el-form-item   label-width="8em">
+                <span slot="label" style="font-size: 1.2em;font-weight: 600;">工资:</span>
+                <el-input v-model ='post_bean.salary'></el-input>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+        <!-- 招收人数和发布时间 -->
+        <div class="row ">
+          <div class=" publis_post">
+            <el-form>
+              <el-form-item label="招收人数:"  label-width="8em">
+                <span slot="label" style="font-size: 1.2em;font-weight: 600;">招收人数:</span>
+                <el-input v-model ='post_bean.num'></el-input>
+              </el-form-item>
+            </el-form>
+          </div>
+          <div class="publis_post">
+            <el-form>
+              <el-form-item label="发布公司:"  label-width="8em">
+                <span slot="label" style="font-size: 1.2em;font-weight: 600;">发布公司:</span>
+                <el-select v-model="post_bean.businessId" placeholder="请选择">
+                  <el-option
+                    v-for="item in companyIdList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+        <!-- 工作时间和工作类型-->
+        <div class="row">
+          <div class=" publis_post">
+            <el-form>
+              <el-form-item label="工作时间:"  label-width="8em">
+                <span slot="label" style="font-size: 1.2em;font-weight: 600;">工作时间:</span>
+                <el-input v-model ='post_bean.workingHours'></el-input>
+              </el-form-item>
+            </el-form>
+          </div>
+          <div class="publis_post">
+            <el-form>
+              <el-form-item label="工作类型:"  label-width="8em">
+                <span slot="label" style="font-size: 1.2em;font-weight: 600;">工作类型:</span>
+                <el-select v-model="post_bean.job" placeholder="请选择">
+                  <el-option
+                    v-for="item in jobtypes"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+        <!-- 详情描述 -->
+        <div class="row">
+          <el-form>
+            <el-form-item  label-width="8em">
+              <span slot="label"style="font-size: 1.2em; font-weight: 600;">详情描述:</span>
+              
+              <el-input
+              type="textarea"
+              :rows="4"
+              placeholder="请输入内容"
+              v-model="post_bean.description">
+            </el-input>
+            </el-form-item>
+          </el-form>
+            
+        </div>
+        <div class="row" style="margin-left: 40%;">
+          <el-button type="primary" style="width: 40%;" @click="post_form">发布招聘</el-button>
+        </div>
+      </div>
+    </el-dialog>
+    </div>
     </div>
   </div>
 </template>
@@ -205,7 +333,8 @@ import config from "@/utils/config.js";
 import { deleteEmploymentById } from "@/api/employment_wh.js";
 import { findEmploymentByTitle } from "@/api/employment_wh.js";
 import { findEmploymentByJob,saveOrUpdateEmployment } from "@/api/employment_wh.js";
-import { findBusinessById } from "@/api/business.js"
+import { findBusinessById,findAllBusiness } from "@/api/business.js"
+import {findAllJobTypes} from "@/api/jobtype.js"
 export default {
   data() {
     return {
@@ -231,7 +360,31 @@ export default {
       pageSize:config.pageSize,
       ids:[],
       msg:[],
-      company:{}
+      company:{},
+      jobtypes:[],
+      companyIdList:[],
+      show_publish:false,
+      show_import:false,
+      post_bean:{
+        title:'',
+        contactName:'',
+        contactPhone:'',
+        publishTime:'2019-12-29 17:15:17',
+        welfare:'',
+        salary:'',
+        description:'',
+        num:'',
+        status:'在线',
+        workingHours:'',
+        job:'',
+        auditStatus:'1待审核',
+        province:'',
+        city:'',
+        jobId:'',
+        businessId:''
+      },
+
+
     };
   },
   computed: {
@@ -256,8 +409,30 @@ export default {
     headClass () {
       return 'background:#008080;color:#fff;height:50px;font-size:16px;'
     },
+    change_image(){
+     let a = document.getElementsByClassName('el-dialog__wrapper')[0];
+     a.style.background = "url("+this.background1+")";
+    },
     //去重
-    
+    async getcompanyId(){
+      try{
+      let res =await findAllBusiness();
+      this.companyIdList =res.data;
+    }catch(err){
+      console.log(err);
+        config.errorMsg(this, "查找工种失败");
+    }
+    },
+    async getjobtype(){
+      try{
+       let res = await findAllJobTypes();
+       this.jobtypes =res.data;
+
+      }catch(err){
+        console.log(err);
+        config.errorMsg(this, "查找工种失败");
+      }
+    },
     //模态框工种发生改变
     async dialogProChange(val) {
       this.currentBus.city = "";
@@ -353,6 +528,38 @@ export default {
         }
       } else {
         this.findAllEmp();
+      }
+    },
+    async post_form(){
+      try{
+        this.show_publish=false;
+        console.log(this.post_bean);
+        let res = await saveOrUpdateEmployment(this.post_bean);
+        this.findAllEmp();
+        this.$message({
+          message:"添加成功",
+          type:"success"
+        })
+        this.post_bean={
+        title:'',
+        contactName:'',
+        contactPhone:'',
+        publishTime:'2019-12-29 17:15:17',
+        welfare:'',
+        salary:'',
+        description:'',
+        num:'',
+        status:'在线',
+        workingHours:'',
+        job:'',
+        auditStatus:'1待审核',
+        province:'',
+        city:'',
+        jobId:'',
+        businessId:''
+      };
+      }catch(err){
+        console.log(err)
       }
     },
 
@@ -467,6 +674,8 @@ export default {
     created() {
       this.findAllEmp();
       this.findAllEmpType();
+      this.getcompanyId();
+      this.getjobtype();
     },
     mounted() {}
     };
@@ -497,6 +706,22 @@ export default {
         overflow:hidden;
         visibility:hidden;
 }
+.publis_post{
+   width: 49%;
+   display: inline-block;
+}
+/deep/ .el-dialog__header{
+  background-color: #7cdfcb;
+}
+/deep/ .el-dialog__close{
+  color: black;
+}
 
-
+  /deep/ .el-dialog__wrapper{
+  background: url('../../assets/bg5.png') ;
+  background-color:rgba(255,255,255,0.2);
+} 
+/deep/ .el-dialog__body{
+  padding-top: 0em;
+}
   </style>

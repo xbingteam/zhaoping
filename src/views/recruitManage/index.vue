@@ -48,5 +48,9 @@ export default {
        /deep/ .el-tabs__item {
     height: 45px;
     line-height: 45px;
+
+}
+.recruitManage{
+  background: url('../../assets/bg5.png') ;
 }
 </style>
