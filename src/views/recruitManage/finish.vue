@@ -2,7 +2,7 @@
   <div class="recruiting">
     <div class="main">
     <!-- {{EmploymentTypeData}} -->
-    <div class="searchDiv">
+    <div class="searchDiv"  style="margin-top: 3em;">
       <el-row>
           <div style="float:left;">
      <el-dropdown>
@@ -76,7 +76,7 @@
       </el-table>
     </div>
     <!-- foot -->
-    <div style="">
+    <div  style="margin-top: 1em;">
       <div class="btnDiv" style="float:left;">
         <el-button @click="toBatchDelete" size="mini" type="danger" plain>批量删除</el-button>
       </div>

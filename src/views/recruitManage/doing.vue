@@ -2,7 +2,7 @@
   <div class="recruiting">
     <div class="main">
     <!-- {{EmploymentTypeData}} -->
-    <div class="searchDiv">
+    <div class="searchDiv" style="margin-top: 3em;">
       <el-row>
           <div style="float:left;">
      <el-dropdown>
@@ -33,33 +33,61 @@
       >
       <el-table-column align="center" type="selection" width="55"></el-table-column>
       <el-table-column  align="center"  prop="title" label="招聘标题"></el-table-column>
-      <el-table-column align="center"  prop="contactName" label="发布人"></el-table-column>
+      <el-table-column align="center"   width="100" prop="contactName" label="发布人"></el-table-column>
       <el-table-column align="center"  prop="contactPhone" label="联系方式"></el-table-column>
-      <el-table-column  align="center" prop="job" label="职位"></el-table-column>
+      <el-table-column  align="center"  width="100" prop="job" label="职位"></el-table-column>
       <el-table-column align="center"  prop="publishTime" label="发布时间">
         <span slot-scope="scope">{{scope.row.publishTime}}</span>
       </el-table-column>
-      <el-table-column align="center" label="详情">
+      <el-table-column align="center"  width="100" label="详情">
           <template slot-scope="scope">
             <el-button @click="toSee(scope.row)" type="text" size="small">查看</el-button>
-            <el-dialog :title="scope.row.title" :visible.sync="scope.row.show_description">
-              <div class="seeDiv">
-                <span>行业类型：</span>
-                {{company.industry}}
+            <el-dialog :title="scope.row.title" :visible.sync="scope.row.show_description" width="35%">
+              <div class="seeDiv" align="left">
+                <p>
+                  <span>行业类型：</span>
+                  {{company.industry}}
+                </p>
+
               </div>
-              <div class="seeDiv">
-                <span>成立时间：</span>
+              <div class="seeDiv" align="left">
+                <p>
+                  <span>公司成立时间：</span>
                 {{company.establishedTime}}
+                </p>
+                <p>
+                  <span>公司注册资本：</span>
+                  {{company.registeredCapital}}
+                </p>
+                <p>
+                  <span>公司规模：</span>
+                  {{company.scale}}
+                </p>
               </div>
-              <div class="seeDiv">
-                <span>注册资本：</span>
-                {{company.registeredCapital}}
+              <div class="seeDiv" align="left">
+                  <p class="el-col-12">
+                    <span>招收人数:</span>
+                    {{scope.row.num}}人
+                  </p>
+                  <p class="el-col-12">
+                    <span>工资:</span>
+                    {{scope.row.salary}}
+                  </p>
+                  <p class="el-col-12">
+                    <span>福利:</span>
+                    {{scope.row.welfare}}
+                  </p>
+                  <p class="el-col-12">
+                    <span>联系方式:</span>
+                    {{scope.row.contactPhone}}
+                  </p>
+                  
               </div>
-              <div class="seeDiv">
-                <span>公司规模：</span>
-                {{company.scale}}
+              <div class="seeDiv" align="left">
+                
+
               </div>
-              <div class="descDiv">&nbsp;&nbsp;&nbsp;&nbsp;{{company.description}}</div>
+              <div class="descDiv" style="margin-top: 2em;">&nbsp;&nbsp;&nbsp;&nbsp;{{company.description}}</div>
               <div class="imgDiv">
                 <a :href="currentBus.businessLicense" target="_blank">
                   <img src="../../assets/营业执照.jpg" alt width="200" height="150" />
@@ -68,9 +96,9 @@
             </el-dialog> 
           </template>
       </el-table-column>
-      <el-table-column  label="操作">
+      <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button @click="toEdit(scope.row)" type="text" size="mini">修改</el-button>
+          <el-button @click="toEdit(scope.row)" type="primary" size="mini">修改</el-button>
           <!-- 修改展示页面 -->
           <el-dialog title="修改招聘信息" :visible.sync="scope.row.show_update" width="50%">
             <el-form :model="currentBus">
@@ -146,13 +174,13 @@
               <el-button type="primary" plain @click="postForm(scope.row)">确定</el-button>
             </div>
           </el-dialog>
-          <el-button @click="toDelete(scope.row.id)" type="text" size="mini">删除</el-button>
+          <el-button @click="toDelete(scope.row.id)" type="danger" size="mini">删除</el-button>
         </template>
       </el-table-column>
       </el-table>
     </div>
     <!-- foot -->
-    <div style="">
+    <div style="margin-top: 1em;">
       <div class="btnDiv" style="float:left;">
         <el-button @click="toBatchDelete" size="mini" type="danger" plain>批量删除</el-button>
       </div>
@@ -216,6 +244,7 @@ export default {
       EmploymentData: [],
       pageSize:config.pageSize,
       ids:[],
+      msg:[],
       company:{}
     };
   },
@@ -227,15 +256,12 @@ export default {
       return temp.slice((page-1)*pageSize,page*pageSize)
     },
     EmploymentDataList(){
-      let msg =[];
-     
-
+        this.msg =[];
         this.EmploymentData.forEach(res=>{
-        msg.push(res.job)
-       
+        this.msg.push(res.job)  
      });
-     msg = [...new Set(msg)]
-    return msg;
+     this.msg = [...new Set(this.msg)]
+    return this.msg;
     
   }
 },
@@ -250,8 +276,18 @@ export default {
     async dialogProChange(val) {
       this.currentBus.city = "";
       try {
-        let res = await findEmploymentByJob({ Employment: val });
-        this.EmploymentData = res.data;
+        let msg = await findEmploymentByJob({ Employment: val });
+        this.EmploymentData = msg.data;
+        this.EmploymentData.forEach(res=>{
+            let index =res.publishTime.indexOf("T")
+            let index1 =res.publishTime.indexOf(".")
+            let a = res.publishTime.substring(0,index);
+            let b = res.publishTime.substring(index+1,index1);
+            res.publishTime = a+" "+b;
+            this.$set(res,'show_description',false)
+        })
+        console.log(this.EmploymentData);
+        
         } catch (error) {
         console.log(error);
         config.errorMsg(this, "查找工种失败");
@@ -316,6 +352,15 @@ export default {
         try {
           let res = await findEmploymentByJob({ job: val });
           this.EmploymentData = res.data;
+          this.EmploymentData.forEach(res=>{
+            let index =res.publishTime.indexOf("T")
+            let index1 =res.publishTime.indexOf(".")
+            let a = res.publishTime.substring(0,index);
+            let b = res.publishTime.substring(index+1,index1);
+            res.publishTime = a+" "+b;
+
+            this.$set(res,'show_description',false)
+          })
           this.currentPage = 1;
         } catch (error) {
           config.errorMsg(this, "信息错误");
@@ -458,5 +503,14 @@ export default {
   width:100%;
   border: 2px solid #008080;
 }
+.seeDiv::after{
+        content:".";
+        clear:both;
+        display:block;
+        height:0;
+        overflow:hidden;
+        visibility:hidden;
+}
+
 
   </style>

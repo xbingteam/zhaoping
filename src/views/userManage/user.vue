@@ -234,7 +234,7 @@ export default {
     async findAllUser(){
       try{
         let res = await findAllJobhunter();
-        this.userData = res.data;
+        this.userData = res.data.reverse();
         //学历数组
         let educationArr = res.data.map((item)=>{
           return item.education;

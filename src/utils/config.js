@@ -32,7 +32,7 @@ function successMsg(that,msg){
   });
 }
 //每页显示的条数
-let pageSize = 5;
+let pageSize = 8;
 export default {
   bp,
   errorMsg,

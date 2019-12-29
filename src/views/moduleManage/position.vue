@@ -85,13 +85,16 @@ export default {
      try {
             console.log(name)
             // 提醒功能
-            let res= await saveOrUpdateJobs({name:name})
+            this.card=false;
+            let res= await saveOrUpdateJobType({name:name})
             if (res.status === 200) {
               config.successMsg(this, "添加成功");
-              this.findAllJob();
+              this.findAllJobType();
+              this.input=''
             } else {
               config.errorMsg(this, "添加");
             }
+            
           } catch (error) {
             config.errorMsg(this, "添加");
             console.log(error)
@@ -100,13 +103,14 @@ export default {
      //控制新增卡片的显示
     newCard(){
       this.card = true;
+      this.inp =true;
         // this.card='ture';
         // console.log(card)
     },
       async findAllJobType() {
       try {
         let res = await findAllJobTypes();
-        this.jobTypeData = res.data;
+        this.jobTypeData = res.data.reverse();
         this.jobTypeData.forEach(res=>{
           this.$set(res,'show_add',false )
         })

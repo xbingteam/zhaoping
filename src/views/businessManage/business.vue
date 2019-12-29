@@ -37,21 +37,21 @@
       >
         <el-table-column align="center" type="selection" width="55"></el-table-column>
         <el-table-column align="center" prop="name" label="企业名称"></el-table-column>
-        <el-table-column align="center" prop="contactName" label="联系人"></el-table-column>
-        <el-table-column align="center" prop="industry" label="行业"></el-table-column>
-        <el-table-column align="center" label="所在地">
+        <el-table-column align="center" prop="contactName" width="150" label="联系人"></el-table-column>
+        <el-table-column align="center" prop="industry"  label="行业"></el-table-column>
+        <el-table-column align="center" width="180" label="所在地">
           <template slot-scope="scope">{{scope.row.province}}-{{scope.row.city}}</template>
         </el-table-column>
         <el-table-column align="center" prop="scale" label="公司规模"></el-table-column>
-        <el-table-column align="center" label="详情">
+        <el-table-column align="center" label="详情"  width="100">
           <template slot-scope="scope">
             <el-button @click="toSee(scope.row)" type="text" size="small">查看</el-button>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="操作" width="100">
+        <el-table-column align="center" label="操作" >
           <template slot-scope="scope">
-            <el-button type="text" @click="toEdit(scope.row)" size="small">编辑</el-button>
-            <el-button type="text" size="small" @click="toDelete(scope.row.id)">删除</el-button>
+            <el-button type="primary" @click="toEdit(scope.row)" size="small">编辑</el-button>
+            <el-button type="danger" size="small" @click="toDelete(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -73,28 +73,28 @@
     </div>
     <!-- 查看模态框 -->
     <el-dialog :title="currentBus.name" :visible.sync="seeVisible">
-      <div class="seeDiv">
-        <span>行业类型：</span>
-        {{currentBus.industry}}
+      <span slot="title" style="color: black;text-align: left; font-size: 1.5em; font-weight: bolder;padding-left: 8px;">{{currentBus.name}}</span>
+      <!-- 类型 -->
+      <div class="row" style="text-align: left; border-bottom:1px #cccccc solid;border-top:#cccccc 1px solid;" >
+        <!-- 行业类型 -->
+        <p style="font-size: 1.1em; color: #778877;"><span>类型:</span>{{currentBus.industry}}</p>
+        <!--  公司规模 -->
+        <p style="font-size: 1.1em; color: #778877;"><span>规模:</span>{{currentBus.scale}}人</p>
       </div>
-      <div class="seeDiv">
-        <span>成立时间：</span>
-        {{currentBus.establishedTime}}
+      <!-- 公司重要信息 -->
+      <div class="row" style="border-bottom:1px #cccccc solid ;">
+        <p  style="font-size: 1.1em; color: #778877;"><span>成立时间:</span>{{currentBus.establishedTime}}</p>
+        <p  style="font-size: 1.1em; color: #778877;"><span>注册资本:</span>{{currentBus.registeredCapital}}</p>
       </div>
-      <div class="seeDiv">
-        <span>注册资本：</span>
-        {{currentBus.registeredCapital}}
+      <!-- 详细信息 -->
+      <div class="row" style="border-bottom:1px #cccccc solid ;">
+        <p>{{currentBus.description}}</p>
       </div>
-      <div class="seeDiv">
-        <span>公司规模：</span>
-        {{currentBus.scale}}
+      <!-- 营业执照 -->
+      <div class="row" style="text-align: center;">
+        <img src="../../assets/营业执照.jpg" alt="" width="50%">
       </div>
-      <div class="descDiv">&nbsp;&nbsp;&nbsp;&nbsp;{{currentBus.description}}</div>
-      <div class="imgDiv">
-        <a :href="currentBus.businessLicense" target="_blank">
-          <img :src="currentBus.businessLicense" alt width="200" height="150" />
-        </a>
-      </div>
+      
     </el-dialog>
     <!-- 修改模态框 -->
     <el-dialog title="修改商家信息" :visible.sync="editVisible" width="60%">
@@ -126,14 +126,13 @@
                       clearable
                       @change="dialogProChange"
                       v-model="currentBus.province"
-                      placeholder="请选择省份"
-                    >
+                      placeholder="请选择省份">
                       <el-option
                         v-for="item in provinceData"
                         :key="item.id"
                         :label="item.name"
-                        :value="item.id"
-                      ></el-option>
+                        :value="item.id">
+                      </el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -514,7 +513,7 @@ export default {
     async findAllBus() {
       try {
         let res = await findAllBusiness();
-        this.businessData = res.data;
+        this.businessData = res.data.reverse();
         this.currentPage = 1;
         //行业数组
         let industryArr = res.data.map(item => {
@@ -591,5 +590,18 @@ export default {
 .searchDiv{
   margin-top: 3em;
 }
+/deep/ .el-dialog__header{
+    background-color: #ffffff;
+  }
+  /deep/ .el-dialog__close{
+    color:black;
+  }
+  /deep/ .el-dialog__body{
+    padding:0px;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
 
+  }
 </style>

@@ -15,7 +15,7 @@
     </div> -->
 
       <div class="tableDiv">
-      <el-table style="margin-top :15px"
+      <el-table style="margin-top :3em"
         :header-cell-style="{background:'teal',color:'#fff',height:'50px'}" 
         ref="multipleTablewelfareDate"
         :data="welfareList"
