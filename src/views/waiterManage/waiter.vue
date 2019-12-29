@@ -3,121 +3,119 @@
  * 客服列表页面
  * @Date: 2019-12-23 17:11:53 
  * @Last Modified by: chengyf
- * @Last Modified time: 2019-12-29 09:54:54
+ * @Last Modified time: 2019-12-29 15:06:10
  */
  <template>
-  <div id="CustomerServiceList">
-    <div class="main">
-    <div class="searchDiv">
-      <el-select @change="statusChange" v-model="status" clearable placeholder="状态">
-        <el-option v-for="item in statusData" :key="item" :label="item" :value="item"></el-option>
-      </el-select>
-      <el-select @change="genderChange" v-model="gender" clearable placeholder="性别">
-        <el-option v-for="item in genderData" :key="item" :label="item" :value="item"></el-option>
-      </el-select>
-     
-        <el-dialog title="工作分配" :visible.sync="showfp" width = "60%" > 
-  <el-dialog  width="30% " title="经手人信息" :visible.sync="waiterMessage" append-to-body>
-    <div>已处理：10</div>
-    <div>未处理：5</div>
-  </el-dialog>
-   <el-table :data="giveData" width="100%">
-    <el-table-column prop="jobhunter" label="求职人"></el-table-column>
-    <el-table-column prop="contact" label="联系方式"></el-table-column>
-    <el-table-column prop="job" label="求职岗位" width="300"></el-table-column>
-    <el-table-column prop="waiter" label="经手人">
-      <template slot-scope="scope">
-        <el-button @click="waiter" type="text" size="small">{{scope.row.waiter}}</el-button>
-      </template>
-    </el-table-column>
-    <el-table-column prop="time" label="申请时间"></el-table-column>
-  </el-table>
-</el-dialog>
- <div class="addWaiterDiv" >
-<template>
-      <el-button @click="addWaiter" type="danger" icon="el-icon-circle-plus-outline">添加客服</el-button>
-      <el-button type="primary" icon="el-icon-upload">导入客服</el-button>
-</template>
-<el-dialog title="添加客服信息" :visible.sync="addWai">
-  <el-form :model="addform" :rules="rules" ref="ruleForm"
->
-    <el-form-item prop="username" label="用户名" :label-width="formLabelWidth" >
-      <el-input v-model="addform.username" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item prop="realname" label="姓名" :label-width="formLabelWidth">
-      <el-input v-model="addform.realname" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item prop="gender" label="性别" :label-width="formLabelWidth">
-      <el-select clearable v-model="addform.gender" placeholder="请选择性别">
-       <el-option v-for="item in genderData" :key="item"  :label="item" :value="item"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item prop="status" label="状态" :label-width="formLabelWidth">
-       <el-select clearable v-model="addform.status" placeholder="请选择状态">
-         <el-option v-for="item in statusData" :key="item"  :label="item" :value="item"></el-option>
-       </el-select>
-    </el-form-item>
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="toCancel('ruleForm')">取 消</el-button>
-    <el-button type="primary" @click="toSave('ruleForm')">确 定</el-button>
-  </div>
-</el-dialog>
-</div>
-</div>
-    <div class="tableDiv">
-    <el-table ref="multipleTable" :data="CustomerServiceList" tooltip-effect="dark" style="width: 100%"
-    @selection-change = "selectionChange" :header-cell-style="headClass">
-    <el-table-column align="center" type="selection" width="55">
-
-    </el-table-column>
-    <el-table-column align="center" prop="username" label="用户名">
-
-    </el-table-column>
-    <el-table-column align="center" prop="realname" label="姓名">
-
-    </el-table-column>
-    <el-table-column align="center" prop="gender" label="性别">
-
-    </el-table-column>
-    <el-table-column align="center" prop="status" label="状态" >
-
-    </el-table-column>
-    <el-table-column align="center" label="分配工作">
-      <template slot-scope="scope">
-        <el-button @click="toGive(scope.row)" type="text" size="small">分配</el-button>
-      </template>
-    </el-table-column>
-    <el-table-column align="center" label="操作" width="100">
-      <template slot-scope="scope">
-        <el-button @click="toDelete(scope.row.id)" type="text" size="small">删除</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-  </div>
-   <div class="footerDiv">
-    <div class="btnDiv">
-       <el-button @click="toBatchDelete" type="danger" plain size='mini'>批量删除</el-button>
+    <div id="CustomerServiceList">
+      <div class="main">
+        <div class="searchDiv">
+          <el-select @change="statusChange" v-model="status" clearable placeholder="状态">
+            <el-option v-for="item in statusData" :key="item" :label="item" :value="item"></el-option>
+          </el-select>
+          <el-select @change="genderChange" v-model="gender" clearable placeholder="性别">
+            <el-option v-for="item in genderData" :key="item" :label="item" :value="item"></el-option>
+          </el-select>
+          <el-dialog title="工作分配" :visible.sync="showfp" width = "60%" > 
+            <el-dialog  width="30% " title="经手人信息" :visible.sync="waiterMessage" append-to-body>
+              <div>已处理：10</div>
+              <div>未处理：5</div>
+            </el-dialog>
+            <el-table :data="giveData" width="100%">
+             <el-table-column prop="jobhunter" label="求职人"></el-table-column>
+             <el-table-column prop="contact" label="联系方式"></el-table-column>
+             <el-table-column prop="job" label="求职岗位" width="300"></el-table-column>
+             <el-table-column prop="waiter" label="经手人">
+               <template slot-scope="scope">
+                 <el-button @click="waiter" type="text" size="small">{{scope.row.waiter}}</el-button>
+               </template>
+             </el-table-column>
+             <el-table-column prop="time" label="申请时间"></el-table-column>
+            </el-table>
+         </el-dialog>
+     <div class="addWaiterDiv" >
+    <template>
+          <el-button @click="addWaiter" type="danger" icon="el-icon-circle-plus-outline">添加客服</el-button>
+          <el-button type="primary" icon="el-icon-upload">导入客服</el-button>
+    </template>
+    <el-dialog title="添加客服信息" :visible.sync="addWai">
+      <el-form :model="addform" :rules="rules" ref="ruleForm">
+        <el-form-item prop="username" label="用户名" :label-width="formLabelWidth" >
+          <el-input v-model="addform.username" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item prop="realname" label="姓名" :label-width="formLabelWidth">
+          <el-input v-model="addform.realname" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item prop="gender" label="性别" :label-width="formLabelWidth">
+          <el-select clearable v-model="addform.gender" placeholder="请选择性别">
+           <el-option v-for="item in genderData" :key="item"  :label="item" :value="item"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="status" label="状态" :label-width="formLabelWidth">
+           <el-select clearable v-model="addform.status" placeholder="请选择状态">
+             <el-option v-for="item in statusData" :key="item"  :label="item" :value="item"></el-option>
+           </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="toCancel('ruleForm')">取 消</el-button>
+        <el-button type="primary" @click="toSave('ruleForm')">确 定</el-button>
+      </div>
+    </el-dialog>
+     </div>
     </div>
-    <div class="pageDiv">
-      <el-pagination
-      :page-size="pageSize"
-      current-page.sync = "currentpage"
-      background
-      @current-change= "pageChange"
-  layout="prev, pager, next"
-  :total="CustomerServiceData.length">
-</el-pagination>
+        <div class="tableDiv">
+        <el-table ref="multipleTable" :data="CustomerServiceList" tooltip-effect="dark" style="width: 100%"
+        @selection-change = "selectionChange" :header-cell-style="headClass">
+        <el-table-column align="center" type="selection" width="55">
+        
+        </el-table-column>
+        <el-table-column align="center" prop="username" label="用户名">
+        
+        </el-table-column>
+        <el-table-column align="center" prop="realname" label="姓名">
+        
+        </el-table-column>
+        <el-table-column align="center" prop="gender" label="性别">
+        
+        </el-table-column>
+        <el-table-column align="center" prop="status" label="状态" >
+        
+        </el-table-column>
+        <el-table-column align="center" label="分配工作">
+          <template slot-scope="scope">
+            <el-button @click="toGive(scope.row)" type="text" size="small">分配</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="操作" width="100">
+          <template slot-scope="scope">
+            <el-button @click="toDelete(scope.row.id)" type="text" size="small">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      </div>
+       <div class="footerDiv">
+        <div class="btnDiv">
+           <el-button @click="toBatchDelete" type="danger" plain size='mini'>批量删除</el-button>
+        </div>
+        <div class="pageDiv">
+    <el-pagination
+          :page-size="pageSize"
+          current-page.sync = "currentpage"
+          background
+          @current-change= "pageChange"
+      layout="prev, pager, next"
+      :total="CustomerServiceData.length">
+    </el-pagination>
+        </div>
+           <el-dialog title="工作分配"  width = "60%" > 
+      <el-dialog  width="30% " title="经手人信息" :visible.sync="waiterMessage" append-to-body>
+        <div>已处理：10</div>
+        <div>未处理：5</div>
+      </el-dialog>
+    </el-dialog>
+      </div>
+      </div>
     </div>
-       <el-dialog title="工作分配"  width = "60%" > 
-  <el-dialog  width="30% " title="经手人信息" :visible.sync="waiterMessage" append-to-body>
-    <div>已处理：10</div>
-    <div>未处理：5</div>
-  </el-dialog>
-</el-dialog>
-  </div>
-  </div>
-</div>
 </template>
 <script>
 import { findAllCustomerService } from "@/api/waiter.js";
@@ -276,7 +274,7 @@ export default {
              {status:val});
              this.CustomerServiceData = res.data;
          } catch (error) {
-           config.errorMsg(this,'通过状态查找商家信息错误');
+           config.errorMsg(this,'通过状态查找客服信息错误');
          }
        } else{
          this.findAllCs();
@@ -293,7 +291,7 @@ export default {
              {gender:val});
              this.CustomerServiceData = res.data;
          } catch (error) {
-           config.errorMsg(this,'通过性别查找商家信息错误');
+           config.errorMsg(this,'通过性别查找客服信息错误');
          }
        } else{
          this.findAllCs();
