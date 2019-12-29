@@ -21,24 +21,24 @@
         </div>
         
         <div>
-        <el-button  class="button-new-tag" size="small" >新增</el-button>
+        <el-button  class="button-new-tag">新增</el-button>
         </div>
       </el-card>
     </div>
 
 
 
-    <div  style="margin-top:20px;" >
-      <el-card class="box-card" shadow="hover"  v-for="item in jobTypeData"  :key="item.id" >
+    <div  style="margin-top:15px;" >
+      <el-card class="box-card" shadow="hover"  v-for="item in jobTypeData"  :key="item.id" style="background-color: #ffe;margin-top: 3em;" >
         <div slot="header" class="clearfix" >
-          <span>{{item.name}}</span>
+          <span >{{item.name}}</span>
         </div>
         <div v-for="pro in jobData" :key="pro.id">
-        <el-tag class="tag"    v-if="item.id===pro.jobTypeId" closable  @close="delete_job(pro.id)"> 
+        <el-tag class="tag" style="font-size: 1.2em;padding-left: 1.2em;padding-right: 1.2em;"  v-if="item.id===pro.jobTypeId" closable  @close="delete_job(pro.id)"> 
           {{pro.name}}
         </el-tag>
         </div >
-         <el-button v-if="!item.show_add" class="button-new-tag" size="small" type="success" plain  @click="item.show_add=true">+ 新增</el-button>
+         <el-button v-if="!item.show_add" class="button-new-tag"  type="success" plain  @click="item.show_add=true">+ 新增</el-button>
 
               <el-input style="width:15%;"
               class="input-new-tag"
@@ -195,9 +195,12 @@ export default {
   .clearfix:after {
     clear: both
   }
-
+/deep/ .el-tag{
+  height: 40px;
+  line-height: 40px;
+}
   .box-card {
-    width: 60%;
+    width: 70%;
     margin:0 auto;
     margin-top: 20px;
   }
@@ -217,5 +220,8 @@ export default {
   background-color: teal;
   color: #fff;
 }
-
+/deep/ .button-new-tag{
+  height: 40px;
+  line-height: 40px;
+}
 </style>

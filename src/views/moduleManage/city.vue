@@ -15,7 +15,7 @@
         <div class="row el-col-24">
           <!-- 使用卡片的形式展示 -->
           <!-- 主体内容 -->
-          <div class="el-col-6 adv_model contact"  style="height:320px;display: inline-block;" v-for="province in provinces">
+          <div class="el-col-6 adv_model contact"  style="height:280px;display: inline-block;" v-for="province in provinces">
             <!-- 名称 -->
             <div class="row adv_model_title">
               
@@ -30,7 +30,7 @@
                   </div>
                 <el-button type="text" slot="reference" style="margin-left:90%;color:#fff;" ><i class="el-icon-circle-close" style="font-size: 1.5em;"></i></el-button>
               </el-popover>
-              <p style="padding-bottom: 0.5em;margin: 0px;position: relative;bottom: 0.7em;">{{province.name}}</p>
+              <p style="height: 0.1em; padding-bottom: 0.5em;margin: 0px;position: relative;bottom: 2em;">{{province.name}}</p>
             </div>
             <!-- 内容 -->
             <div class="row adv_model_context" style="height: 120px;overflow: auto;" >

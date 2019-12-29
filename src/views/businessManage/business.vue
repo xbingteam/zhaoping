@@ -32,7 +32,7 @@
         ref="multipleTable"
         :data="businessList"
         tooltip-effect="dark"
-        style="width: 100%"
+        style="width: 100%;font-size: 1.1em;"
         @selection-change="selectionChange" :header-cell-style="headClass"
       >
         <el-table-column align="center" type="selection" width="55"></el-table-column>
@@ -48,7 +48,7 @@
             <el-button @click="toSee(scope.row)" type="text" size="small">查看</el-button>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="操作" >
+        <el-table-column align="center" label="操作" min-width="150" >
           <template slot-scope="scope">
             <el-button type="primary" @click="toEdit(scope.row)" size="small">编辑</el-button>
             <el-button type="danger" size="small" @click="toDelete(scope.row.id)">删除</el-button>

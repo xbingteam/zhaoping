@@ -44,22 +44,50 @@
             <el-button @click="toSee(scope.row)" type="text" size="small">查看</el-button>
             <el-dialog :title="scope.row.title" :visible.sync="scope.row.show_description" width="35%">
               <div class="seeDiv" align="left">
-                <span>行业类型：</span>
-                {{company.industry}}
+                <p>
+                  <span>行业类型：</span>
+                  {{company.industry}}
+                </p>
+
               </div>
               <div class="seeDiv" align="left">
-                <span>成立时间：</span>
+                <p>
+                  <span>公司成立时间：</span>
                 {{company.establishedTime}}
+                </p>
+                <p>
+                  <span>公司注册资本：</span>
+                  {{company.registeredCapital}}
+                </p>
+                <p>
+                  <span>公司规模：</span>
+                  {{company.scale}}
+                </p>
               </div>
               <div class="seeDiv" align="left">
-                <span>注册资本：</span>
-                {{company.registeredCapital}}
+                  <p class="el-col-12">
+                    <span>招收人数:</span>
+                    {{scope.row.num}}人
+                  </p>
+                  <p class="el-col-12">
+                    <span>工资:</span>
+                    {{scope.row.salary}}
+                  </p>
+                  <p class="el-col-12">
+                    <span>福利:</span>
+                    {{scope.row.welfare}}
+                  </p>
+                  <p class="el-col-12">
+                    <span>联系方式:</span>
+                    {{scope.row.contactPhone}}
+                  </p>
+                  
               </div>
               <div class="seeDiv" align="left">
-                <span>公司规模：</span>
-                {{company.scale}}
+                
+
               </div>
-              <div class="descDiv">&nbsp;&nbsp;&nbsp;&nbsp;{{company.description}}</div>
+              <div class="descDiv" style="margin-top: 2em;">&nbsp;&nbsp;&nbsp;&nbsp;{{company.description}}</div>
               <div class="imgDiv">
                 <a :href="currentBus.businessLicense" target="_blank">
                   <img src="../../assets/营业执照.jpg" alt width="200" height="150" />
@@ -382,5 +410,12 @@ export default {
   width:100%;
   border: 2px solid #008080;
 }
-
+.seeDiv::after{
+        content:".";
+        clear:both;
+        display:block;
+        height:0;
+        overflow:hidden;
+        visibility:hidden;
+}
   </style>
