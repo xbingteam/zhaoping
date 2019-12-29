@@ -3,19 +3,28 @@
  * 求职列表页面
  * @Date: 2019-12-23 17:11:53 
  * @Last Modified by: weiyc
- * @Last Modified time: 2019-12-28 20:39:27
+ * @Last Modified time: 2019-12-29 15:38:29
  */
 <template>
 <div class="qiuzhi">
   <div class="main">
       <div class="btn">
-       <el-button @click="toGuolv"  type="primary" plain>待联系</el-button>
+
+          <el-select clearable @change="dialogProChange(select_input)" v-model="select_input" placeholder="请选择">
+            
+            <el-option
+              v-for="item in this.select_list"
+              :key="item"
+              :label="item"
+              :value="item">
+            </el-option>
+          </el-select>
       </div>
 <!-- 表格 -->
   <div class="tabDiv">
     <el-table
     :header-cell-style="headClass"
-    :data="jobList"
+    :data="this.emplData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
     tooltip-effect="dark"
     style="width: 100%"
     >
@@ -52,6 +61,7 @@
     </el-table>
   </div>
   <!-- 查看模态框 -->
+  <div class="chakan">
 <el-dialog :title="Jobhunter.jobhunter?Jobhunter.jobhunter.realname:''" :visible.sync="dialogFormVisible" >
   <el-row :gutter="20">
   <el-col :span="12">
@@ -77,7 +87,7 @@
       </div> </el-col>
 </el-row>
 </el-dialog>
-
+</div>
 <!-- 分页 -->
     <div class="pagi">
         <el-pagination
@@ -105,7 +115,7 @@ export default {
      
       //当前页
       currentPage: 1,
-       
+      pageSize :5,
       dialogFormVisible: false,
       formLabelWidth: "120px",
       //扩展数据
@@ -118,9 +128,9 @@ export default {
         education:'',
         workTime:'',
       },
-
       EmploymentJobhunterData:[],
-    
+      select_input:'',
+      select_list:[]
     };
   },
   computed: {
@@ -128,22 +138,48 @@ export default {
       let temp = [...this.emplData];
       let pageSize = config.pageSize;
       let page = this.currentPage;
-      return temp.slice((page - 1) * pageSize, page * pageSize);
+      return this.emplData.slice((page - 1) * pageSize, page * pageSize);
     },
   },
   methods: {
+    async dialogProChange(val) {
+      // console.log(val);
+      //通过val获取城市
+      if(val){
+      try {
+        console.log(val)
+        let test =[];
+        this.emplData.forEach(res=>{
+          if(res.remark == val)
+          test.push(res)
+        })
+        console.log(test)
+        this.emplData = test;
+        console.log(this.emplData,'--------')
+      } catch (error) {
+        console.log(error);
+        config.errorMsg(this, "通过省份查找城市失败");
+      }}
+      else{
+        this.findAllwjae();
+      }
+    },
+
+
+
+
          // 表头样式设置
     headClass () {
       return 'background:#008080;color:#fff;height:50px;font-size:16px;'
     },
 
-      toGuolv(){
-          let res = this.emplData.filter(item => {
-              return item.remark;
-            });
-          this.emplData = res;
-         
-     },
+    //   toGuolv(){
+          
+    //           let res = this.emplData.filter(item => {
+    //           return item.remark;
+    //         });
+    //              this.emplData = res;           
+    //  },
 
       toSee(row){
         this.dialogFormVisible = true;
@@ -154,8 +190,21 @@ export default {
     //获取信息
      async findAllwjae(){
         try{
-          let res = await findAllWithJobhAndEmpl();
-          this.emplData = res.data;
+          let msg = await findAllWithJobhAndEmpl();
+          this.emplData = msg.data;
+          console.log(this.emplData)
+          this.emplData.forEach(res=>{
+            let index =res.askTime.indexOf("T")
+            let index1 =res.askTime.indexOf(".")
+            let a = res.askTime.substring(0,index);
+            let b = res.askTime.substring(index+1,index1);
+            res.askTime = a+" "+b;
+          }
+          )
+          this.emplData.forEach(res=>{
+            this.select_list.push(res.remark)
+          })
+          this.select_list = [... new Set(this.select_list)]
           
         }catch(err){
           config.errorMsg(this,'查找错误');
@@ -194,6 +243,7 @@ export default {
   created() {
     this.getJobhunterData();
     this.getEmploymentJobhunterData();
+    console.log('调用一次')
     this.findAllwjae();
 
   },
@@ -222,4 +272,8 @@ export default {
   width:100%;
   border: 2px solid #008080;
 }
+// .chakan{
+//   width:100%;
+//   border: 2px solid #008080;
+// }
 </style>
