@@ -61,7 +61,7 @@
               </div>
               <div class="descDiv">&nbsp;&nbsp;&nbsp;&nbsp;{{company.description}}</div>
               <div class="imgDiv">
-                <a href="#" target="_blank">
+                <a :href="currentBus.businessLicense" target="_blank">
                   <img src="../../assets/营业执照.jpg" alt width="200" height="150" />
                 </a>
               </div>
@@ -73,7 +73,7 @@
           <el-button @click="toEdit(scope.row)" type="text" size="mini">修改</el-button>
           <!-- 修改展示页面 -->
           <el-dialog title="修改招聘信息" :visible.sync="scope.row.show_update" width="50%">
-            <el-form >
+            <el-form :model="currentBus">
               <el-row>
                 <el-col :span="12"><div class="grid-content bg-purple">
                   <el-form-item label="兼职名称" :label-width="formLabelWidth">
@@ -115,6 +115,7 @@
                   </div>
                 </el-col>
               </el-row>
+    
               <el-row>
                 <el-col :span="12">
                   <div class="grid-content bg-purple">
@@ -166,7 +167,19 @@
             </el-pagination>
         </div>
     </div> 
->
+    <!-- 发布职位 -->
+    <!-- <div style="position:absolute; right:10%; top:6%;">
+      <el-row>
+        <el-button type="primary" plain>发布职位</el-button>
+        <el-button type="success" plain>导入职位</el-button>
+      </el-row>
+    </div> -->
+    <!-- 详情 -->
+    
+
+    <!-- 模态框 -->
+
+    <!-- 修改模态框 -->
 
     </div>
   </div>
@@ -185,10 +198,11 @@ export default {
       Employment:"",
        dialogVisible: false,
       //当前查看或修改的对象
+      currentBus: {},
       //修改模态框汉字宽度
       formLabelWidth:"100px",
       //当前查看的对象
-
+      currentBus:'',
       //修改模态框修饰与否
       editVisible:false,
       //当前查看的对象
@@ -202,8 +216,7 @@ export default {
       EmploymentData: [],
       pageSize:config.pageSize,
       ids:[],
-      company:{},
-      listJob:[],
+      company:{}
     };
   },
   computed: {
@@ -214,11 +227,15 @@ export default {
       return temp.slice((page-1)*pageSize,page*pageSize)
     },
     EmploymentDataList(){
+      let msg =[];
+     
+
         this.EmploymentData.forEach(res=>{
-        this.listJob.push(res.job)
+        msg.push(res.job)
+       
      });
-        this.listJob = [...new Set(this.listJob)]
-        return this.listJob;
+     msg = [...new Set(msg)]
+    return msg;
     
   }
 },
@@ -231,6 +248,7 @@ export default {
     
     //模态框工种发生改变
     async dialogProChange(val) {
+      this.currentBus.city = "";
       try {
         let res = await findEmploymentByJob({ Employment: val });
         this.EmploymentData = res.data;
@@ -245,7 +263,6 @@ export default {
       //获取要批量删除的id  this.id
       let ids = this.ids;
       console.log(ids);
-      if(ids){
       if (ids.length > 0) {
         this.$alert("是否删除？", "提示", {
           confirmButtonText: "删除",
@@ -282,7 +299,6 @@ export default {
           type: "warning"
         });
       }
-      }
     },
     //查找所有职业类型信息
     async findAllEmpType() {
@@ -302,7 +318,6 @@ export default {
           this.EmploymentData = res.data;
           this.currentPage = 1;
         } catch (error) {
-          console.log(error);
           config.errorMsg(this, "信息错误");
         }
       } else {
@@ -337,7 +352,6 @@ export default {
         console.log(this.company)
 
        }catch(err){
-        console.log(error);
         console.log(err)
        }
     },
@@ -412,8 +426,6 @@ export default {
             }
           
         }catch(error){
-          console.log(error);
-
           config.erroMsg(this,'删除失败');
           // config.log('删除失败1');
         }
