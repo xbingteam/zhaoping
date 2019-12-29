@@ -604,4 +604,10 @@ export default {
     padding-bottom: 30px;
 
   }
+  /deep/ .el-dialog__header{
+    background-color: #ffffff;
+}
+  /deep/ .el-dialog__close{
+    color:black;
+  }
 </style>

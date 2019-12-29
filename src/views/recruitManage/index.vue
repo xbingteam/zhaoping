@@ -50,7 +50,5 @@ export default {
     line-height: 45px;
 
 }
-.recruitManage{
-  background: url('../../assets/bg5.png') ;
-}
+
 </style>

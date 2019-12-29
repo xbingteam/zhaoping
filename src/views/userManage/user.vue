@@ -550,5 +550,8 @@ export default {
     float: right;
   }
 }
+/deep/ .el-dialog__header{
+    background-color: teal;
+}
 
 </style>

@@ -101,18 +101,15 @@
     </div>
 </div>
 </div>
-
 </template>
 
 <script>
 import { findAllJobhunter } from "@/api/jobhunter.js";
 import { findAllEmploymentJobhunter,findAllWithJobhAndEmpl } from '@/api/employmentJobhunter.js';
 import config from '@/utils/config.js';
-
 export default {
   data() {
     return {
-     
       //当前页
       currentPage: 1,
       pageSize :8,
@@ -272,8 +269,10 @@ export default {
   width:100%;
   border: 2px solid #008080;
 }
-// .chakan{
-//   width:100%;
-//   border: 2px solid #008080;
-// }
+/deep/ .el-dialog__header{
+    background-color: teal;
+}
+  /deep/ .el-dialog__close{
+    color:black;
+  }
 </style>

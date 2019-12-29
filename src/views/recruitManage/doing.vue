@@ -200,8 +200,8 @@
     <div>
           <!-- 发布职位 -->
     <el-dialog :title="发布职位" :visible.sync="show_publish" width="50%" class="publish_form">
-      <span slot="title" style="color: black;text-align: left; font-size: 1.5em; font-weight: 600;padding-left: 8px;margin-left: 45%;">发布招聘</span>
-      <div style="border-radius: 10px; ">
+      <span slot="title" style="color: #ffffff;text-align: left; font-size: 1.5em; padding-left: 8px;margin-left: 45%;">发布招聘</span>
+      <div style="border-radius: 10px;">
         <!-- 兼职名字 -->
         <div class="row" style="margin-top: 2em;">
           <el-form>
@@ -711,16 +711,16 @@ export default {
    display: inline-block;
 }
 /deep/ .el-dialog__header{
-  background-color: #7cdfcb;
+  background-color: teal;
 }
 /deep/ .el-dialog__close{
   color: black;
 }
 
-  /deep/ .el-dialog__wrapper{
-  background: url('../../assets/bg5.png') ;
+/* /deep/ .el-dialog__wrapper{
+  background: url('../../assets/背景动图4.gif') ;
   background-color:rgba(255,255,255,0.2);
-} 
+}  */
 /deep/ .el-dialog__body{
   padding-top: 0em;
 }

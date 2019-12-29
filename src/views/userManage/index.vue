@@ -35,4 +35,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+         /deep/ .el-tabs__item {
+    height: 45px;
+    line-height: 45px;
+
+}
 </style>

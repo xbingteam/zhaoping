@@ -241,6 +241,15 @@ export default {
     background-color: rgb(91, 156, 241);
     color: #fff;
   }
- 
+  /deep/ .el-dialog__header{
+    background-color: #353535;
+}
+  /deep/ .el-dialog__close{
+    color:#fff;
+  }
+  /deep/ .el-dialog__wrapper{
+  background: url('../../assets/背景动图4.gif') ;
+  background-color:rgba(255,255,255,0.2);
+} 
  
 </style>

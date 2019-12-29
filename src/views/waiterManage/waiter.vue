@@ -420,4 +420,10 @@ export default {
 .searchDiv{
   margin-top: 3em;
 }
+/deep/ .el-dialog__header{
+    background-color: teal;
+}
+  /deep/ .el-dialog__close{
+    color:black;
+  }
 </style>

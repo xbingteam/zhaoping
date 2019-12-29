@@ -490,7 +490,7 @@ export default {
   }
   /deep/ .el-dialog__header{
     background-color: #ffffff;
-  }
+}
   /deep/ .el-dialog__close{
     color:black;
   }
