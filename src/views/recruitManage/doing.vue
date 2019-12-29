@@ -195,20 +195,6 @@
             </el-pagination>
         </div>
     </div> 
-    <!-- 发布职位 -->
-    <!-- <div style="position:absolute; right:10%; top:6%;">
-      <el-row>
-        <el-button type="primary" plain>发布职位</el-button>
-        <el-button type="success" plain>导入职位</el-button>
-      </el-row>
-    </div> -->
-    <!-- 详情 -->
-    
-
-    <!-- 模态框 -->
-
-    <!-- 修改模态框 -->
-
     </div>
   </div>
 </template>

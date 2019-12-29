@@ -127,7 +127,7 @@ export default {
       jobs:[],
       job_value:'',
       employments:[],
-      pageSize:5,
+      pageSize:8,
       checked:[],
       currentPage:1,
       show_description:false

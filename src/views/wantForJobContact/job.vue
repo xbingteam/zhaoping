@@ -115,7 +115,7 @@ export default {
      
       //当前页
       currentPage: 1,
-      pageSize :5,
+      pageSize :8,
       dialogFormVisible: false,
       formLabelWidth: "120px",
       //扩展数据

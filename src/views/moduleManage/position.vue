@@ -28,7 +28,7 @@
 
 
 
-    <div  style="margin-top:15px;" >
+    <div  style="margin-top:15px; margin-bottom: 10em;" >
       <el-card class="box-card" shadow="hover"  v-for="item in jobTypeData"  :key="item.id" style="background-color: #ffe;margin-top: 3em;" >
         <div slot="header" class="clearfix" >
           <span >{{item.name}}</span>

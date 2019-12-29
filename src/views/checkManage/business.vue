@@ -60,10 +60,6 @@
             <el-table-column width="70"align="center" label="#">
               <template slot-scope="scope">
                 <input type="checkbox" v-model="checked" :value="scope.row.id" style="zoom:130%">
-                <!-- <el-checkbox-group v-model="checked">
-                  <el-checkbox  :lable="scope.row.id"></el-checkbox>
-                </el-checkbox-group> -->
-              
               </template>
             </el-table-column>
             <el-table-column
@@ -189,7 +185,7 @@ export default {
       business:[],
       checked:[],
       // 显示多少页
-      pageSize:5,
+      pageSize:8,
       // 当前页
       currentPage:1,
       business1:{},

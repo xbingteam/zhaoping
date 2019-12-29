@@ -12,7 +12,7 @@
         <span slot="label" style="padding: 0 40px;font-size: 1.2em;">商家列表</span>
       </el-tab-pane>
       <el-tab-pane label="招聘审核" name="recruit">
-        <span slot="label" style="padding: 0 40px;font-size: 1.2em;">商家列表</span>
+        <span slot="label" style="padding: 0 40px;font-size: 1.2em;">招聘审核</span>
       </el-tab-pane>
     </el-tabs>
     <!-- 选项卡体部 -->
