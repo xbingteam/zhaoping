@@ -8,7 +8,7 @@
      <el-dropdown>
        <el-select @change="EmploymentChange(Employment)"  v-model="Employment" clearable placeholder="职位类型">
           <el-option
-          v-for="item in EmploymentDataList"
+          v-for="item in msg "
           :key="item"
           :label="item"
           :value="item">
@@ -18,7 +18,6 @@
         </div>
         <div style="float:right;">
         <el-button type="primary"  @click="show_publish=true">发布职位</el-button>
-        <el-button type="success" >导入职位</el-button>
         </div>
       </el-row>
     </div>
@@ -48,6 +47,7 @@
                   <span>行业类型：</span>
                   {{company.industry}}
                 </p>
+                
 
               </div>
               <div class="seeDiv" align="left">
@@ -100,8 +100,8 @@
         <template slot-scope="scope">
           <el-button @click="toEdit(scope.row)" type="primary" size="mini">修改</el-button>
           <!-- 修改展示页面 -->
-          <el-dialog title="修改招聘信息" :visible.sync="scope.row.show_update" width="50%"  style="padding-top: 0em;">
-            <el-form :model="currentBus">
+          <el-dialog title="修改招聘信息" :visible.sync="scope.row.show_update" width="50%"  style="padding-top: 2em;">
+            <el-form style="margin-top: 2em;">
               <el-row>
                 <el-col :span="12"><div class="grid-content bg-purple">
                   <el-form-item label="兼职名称" :label-width="formLabelWidth">
@@ -109,16 +109,15 @@
                   </el-form-item></div></el-col>
               </el-row>
               <el-row :gutter="20" >
-                <el-col :span="12"><div class="grid-content bg-purple-light"><el-form-item label="选择工种" :label-width="formLabelWidth">
+                <el-col :span="12" style="padding-right: 12em;"><div class="grid-content bg-purple-light"><el-form-item label="选择工种" :label-width="formLabelWidth">
               <el-row >
-              <el-select @change="dialogProChange" v-model="scope.row.job" placeholder="请选择活动区域">
-                  <el-option label="区域一" v-for="item in EmploymentDataList" :value="item" :key="item":label="item"></el-option>
-                 
+              <el-select @change="dialogProChange" v-model="scope.row.job" placeholder="请选择活动区域" style="margin-right: 2em;">
+                  <el-option label="区域一" v-for="item in msg " :value="item" :key="item":label="item"></el-option>
               </el-select>
                   </el-row>
             </el-form-item></div></el-col>
                     <el-col :span="12">
-                      <el-form-item prop="industry" label="招聘人数" :label-width="formLabelWidth" >
+                      <el-form-item  label="招聘人数" :label-width="formLabelWidth" >
                         <el-input v-model="scope.row.num" placeholder="请输入你要招聘的人数"></el-input>
                       </el-form-item>
                     </el-col>
@@ -195,18 +194,18 @@
               layout="prev, pager, next"
               :total="EmploymentData.length">
             </el-pagination>
-        </div>
+      </div>
     </div> 
     <div>
           <!-- 发布职位 -->
-    <el-dialog :title="发布职位" :visible.sync="show_publish" width="50%" class="publish_form">
+    <el-dialog title="发布职位" :visible.sync="show_publish" width="50%" class="publish_form">
       <span slot="title" style="color: #ffffff;text-align: left; font-size: 1.5em; padding-left: 8px;margin-left: 45%;">发布招聘</span>
       <div style="border-radius: 10px;">
         <!-- 兼职名字 -->
         <div class="row" style="margin-top: 2em;">
           <el-form>
             <el-form-item label="职位名称:" label-width="8em">
-              <span slot="label" style="font-size: 1.2em;font-weight: 600;">职位名称:</span>
+              <span slot="label" style="font-size: 1.2em;font-weight: 600;">招聘标题:</span>
               <el-input v-model ='post_bean.title' style="width: 98%;"></el-input>
             </el-form-item>
           </el-form>
@@ -294,7 +293,7 @@
                     v-for="item in jobtypes"
                     :key="item.id"
                     :label="item.name"
-                    :value="item">
+                    :value="item.name">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -323,6 +322,7 @@
       </div>
     </el-dialog>
     </div>
+    
     </div>
   </div>
 </template>
@@ -395,11 +395,7 @@ export default {
       return temp.slice((page-1)*pageSize,page*pageSize)
     },
     EmploymentDataList(){
-        this.msg =[];
-        this.EmploymentData.forEach(res=>{
-        this.msg.push(res.job)  
-     });
-     this.msg = [...new Set(this.msg)]
+        
     return this.msg;
     
   }
@@ -502,6 +498,11 @@ export default {
       try {
         let res = await findEmploymentByJob();
         this.EmploymentTypeData = res.data;
+        this.msg =[];
+        this.EmploymentData.forEach(res=>{
+        this.msg.push(res.job)  
+     });
+     this.msg = [...new Set(this.msg)]
       } catch (error) {
         console.log(error)
         config.errorMsg(this, "查找错误");

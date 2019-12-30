@@ -63,7 +63,8 @@
         <el-dialog title="添加省份" :visible.sync="new_city_add" width="30%" center>
           <el-form>
             <el-form-item label="城市:"label-width="10%">
-              <el-input v-model="province.name" @change="addprovince"></el-input>
+              <span slot="label" style="color:#fff">城市</span>
+              <el-input v-model="province.name" @change="addprovince" class="input_bg"></el-input>
             </el-form-item>
             <el-button type = "primary" style="margin-left: 30%; width: 40%;" @click="addprovince">添加</el-button>
           </el-form>
@@ -242,7 +243,7 @@ export default {
     color: #fff;
   }
   /deep/ .el-dialog__header{
-    background-color: #353535;
+    background-color:black;
 }
   /deep/ .el-dialog__close{
     color:#fff;
@@ -251,5 +252,14 @@ export default {
   background: url('../../assets/背景动图4.gif') ;
   background-color:rgba(255,255,255,0.2);
 } 
- 
+/deep/ .input_bg .el-input__inner{
+  background-color: #2d3a4b;
+  color: #fff;
+}
+/deep/ .el-dialog__body {
+  background-color: black;
+}
+/deep/  .el-button--primary {
+  background-color: black;
+}
 </style>

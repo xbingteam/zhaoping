@@ -167,6 +167,7 @@ $light_gray: #eee;
     border-radius: 5px;
     color: #454545;
   }
+  
 }
 </style>
 

@@ -148,7 +148,7 @@ export default {
     async findallEmployment(){
       try{
           let res = await FindAllemployments();
-          this.employments = res.data;
+          this.employments = res.data.reverse();
           this.employments.forEach(res=>{
             let index =res.publishTime.indexOf("T")
             let index1 =res.publishTime.indexOf(".")
@@ -219,6 +219,10 @@ export default {
       //  this.$set(employment,'publishTime',new Date(date).getTime())
       //  console.log(time)
       employment.auditStatus="3审核通过"
+      this.$message({
+        message:"审核成功!审核结果为:通过",
+        type:"success"
+      })
       let res = await saveOrUpdateEmployments(employment);
       if(this.job_value){
         this.findemploymentsbyjob(this.job_value);
@@ -242,6 +246,10 @@ export default {
         //  this.$set(employment,'publishTime',new Date(date).getTime())
         //  console.log(time)
         employment.auditStatus="2拒绝"
+        this.$message({
+        message:"审核成功!审核结果为:拒绝",
+        type:"success"
+      })
         let res = await saveOrUpdateEmployments(employment);
         if(this.job_value){
           this.findemploymentsbyjob(this.job_value);

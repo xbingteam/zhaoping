@@ -399,6 +399,10 @@ export default {
             console.log("4进入")
             this.FindBusinessByScale(this.scale_value);
           }
+          this.$message({
+        message:"审核成功!审核结果为:通过",
+        type:"success"
+      })
       }catch(err){
         this.$notify.error({
           title: "错误",  
@@ -436,6 +440,10 @@ export default {
             console.log("4进入")
             this.FindBusinessByScale(this.scale_value);
           }
+          this.$message({
+        message:"审核成功!审核结果为:拒绝",
+        type:"success"
+      })
       }catch(err){
         this.$notify.error({
           title: "错误",  
